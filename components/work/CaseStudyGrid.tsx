@@ -173,15 +173,21 @@ export function CaseStudyGrid() {
                   onClick={() => setSelectedProject(project)}
                 >
                   {/* Media container */}
-                  <div className="aspect-video w-full relative overflow-hidden bg-black border-b border-black/5">
+                  <div className="aspect-video w-full relative overflow-hidden bg-[#080808] border-b border-black/5 flex items-center justify-center">
+                    <img
+                      src={project.image}
+                      alt=""
+                      aria-hidden="true"
+                      className="absolute inset-0 w-full h-full object-cover blur-xl opacity-40 scale-110 pointer-events-none"
+                    />
                     <img
                       src={project.image}
                       alt={project.client}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="relative z-0 w-full h-full object-contain p-1.5 group-hover:scale-105 transition-transform duration-500"
                     />
                     
                     {/* Dark gradient mask */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                    <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
 
                     {/* Play Video Indicator if video exists */}
                     {project.video && (

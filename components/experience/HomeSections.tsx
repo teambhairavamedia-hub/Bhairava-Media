@@ -782,15 +782,25 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
                 onClick={() => setSelectedProject(project)}
                 className={`group relative overflow-hidden rounded-3xl bg-[#0a0a0a] border border-black/10 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer flex flex-col justify-between ${config.span} ${config.height}`}
               >
-                {/* Media Container with optimal image fit */}
-                <div className="absolute inset-0 w-full h-full bg-black overflow-hidden flex items-center justify-center">
+                {/* Media Container with ambient backdrop & zero cropping */}
+                <div className="absolute inset-0 w-full h-full bg-[#080808] overflow-hidden flex items-center justify-center">
+                  {/* Ambient blurred backdrop so grid card is 100% filled without stark borders */}
+                  <img
+                    src={project.image}
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-45 scale-110 pointer-events-none"
+                  />
+
+                  {/* Full uncropped image fitted inside card */}
                   <img
                     src={project.image}
                     alt={project.client}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    className="relative z-0 w-full h-full object-contain p-2 md:p-3 group-hover:scale-103 transition-transform duration-500 ease-out"
                   />
-                  {/* Vignette overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent transition-opacity duration-300" />
+
+                  {/* Vignette overlay for clear typography contrast */}
+                  <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/90 via-black/35 to-black/10 pointer-events-none" />
                 </div>
 
                 {/* Top Overlay Badges */}
