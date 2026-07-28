@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { gsap, registerGsap, ScrollTrigger } from "@/hooks/useGsap";
 import { experienceConfig } from "@/lib/experience";
 import { Section } from "@/components/ui/Section";
@@ -724,45 +724,19 @@ type ProjectItem = (typeof experienceConfig.portfolio)[number] & {
 
 export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [activeSlug, setActiveSlug] = useState<string>(portfolioWithRevenue[0].slug);
-  const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
+  const [selectedProject, setSelectedProject] = useState<(typeof experienceConfig.portfolio)[number] | null>(null);
 
-  /* Animate rows in on scroll */
-  useEffect(() => {
-    if (!ready) return;
-    registerGsap();
-    const section = sectionRef.current;
-    if (!section) return;
+  const portfolio = experienceConfig.portfolio;
 
-    const ctx = gsap.context(() => {
-      gsap.from(".work-row", {
-        y: 30,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.08,
-        ease: "power3.out",
-        scrollTrigger: { trigger: section, start: "top 80%" },
-      });
-    }, section);
-
-    return () => ctx.revert();
-  }, [ready]);
-
-  /* Play active video, pause others */
-  useEffect(() => {
-    Object.keys(videoRefs.current).forEach((slug) => {
-      const v = videoRefs.current[slug];
-      if (!v) return;
-      if (slug === activeSlug) {
-        v.currentTime = 0;
-        void v.play().catch(() => {});
-      } else {
-        v.pause();
-      }
-    });
-  }, [activeSlug]);
-
-  const activeProject = portfolioWithRevenue.find((p) => p.slug === activeSlug) || portfolioWithRevenue[0];
+  // Asymmetrical Bento Grid column & aspect ratios
+  const bentoConfigs = [
+    { span: "lg:col-span-8", aspect: "aspect-[16/10] md:aspect-[16/9]" }, // IDFC FIRST Bank (Hero Wide)
+    { span: "lg:col-span-4", aspect: "aspect-[4/5] md:aspect-[16/10]" },  // Quberx (Tall)
+    { span: "lg:col-span-4", aspect: "aspect-[4/5] md:aspect-[16/10]" },  // Adhyaksh (Tall)
+    { span: "lg:col-span-8", aspect: "aspect-[16/10] md:aspect-[16/9]" }, // Erik & Vinmayi Music '96 (Hero Wide)
+    { span: "lg:col-span-6", aspect: "aspect-[16/10]" },                 // Zat Pat Pata Pat
+    { span: "lg:col-span-6", aspect: "aspect-[16/10]" },                 // Commercial Youth
+  ];
 
   return (
     <Section theme="light" className="relative overflow-hidden" style={{ background: "#ffffff" }}>
@@ -794,202 +768,181 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
           </Link>
         </div>
 
-        {/* Top border */}
-        <div className="h-[1px] w-full bg-[#0a0a0a]/10 mb-0" />
-
-        {/* Grid layout: Split on desktop, Stacked on mobile */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          
-          {/* LEFT: Compact List (spans 7 columns on desktop) */}
-          <div className="lg:col-span-7 flex flex-col">
-            {portfolioWithRevenue.map((project, index) => {
-              const isActive = project.slug === activeSlug;
-              return (
-                <div key={project.slug} className="work-row">
-                  <Link
-                    href="/work"
-                    className="group relative flex w-full items-center justify-between gap-6 border-b border-[#e8e8e6] py-5 md:py-6 transition-all duration-300 hover:border-[#0a0a0a]/20"
-                    onMouseEnter={() => setActiveSlug(project.slug)}
-                    style={{
-                      opacity: isActive ? 1 : 0.45,
-                      transition: "opacity 0.3s ease",
-                    }}
-                  >
-                    {/* Index + Name */}
-                    <div className="flex items-center gap-6 md:gap-8 min-w-0">
-                      <span
-                        className="w-8 shrink-0 text-[0.6875rem] font-medium tabular-nums text-[#0a0a0a]/28 transition-colors duration-300 group-hover:text-[#0a0a0a]/55"
-                        style={{ fontVariantNumeric: "tabular-nums" }}
-                      >
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-
-                      <h3
-                        className="truncate text-[clamp(1.25rem,2.2vw,2rem)] font-bold leading-none tracking-[-0.03em] text-[#0a0a0a] transition-all duration-300"
-                        style={{ fontFamily: "var(--font-syne), sans-serif" }}
-                      >
-                        {project.client}
-                      </h3>
-                    </div>
-
-                    {/* Right side arrow and tags */}
-                    <div className="flex items-center gap-4">
-                      {/* Category Pill on desktop */}
-                      <span className="hidden sm:inline-block label-eyebrow text-[#0a0a0a]/40 group-hover:text-[#0a0a0a]/70 transition-colors duration-300">
-                        {project.category}
-                      </span>
-                      
-                      {/* Arrow */}
-                      <span
-                        className={`flex h-8 w-8 items-center justify-center rounded-full border border-[#0a0a0a]/10 transition-all duration-300 ${
-                          isActive
-                            ? "opacity-100 translate-x-0 border-[#0a0a0a]/20"
-                            : "opacity-0 translate-x-[-6px] group-hover:opacity-100 group-hover:translate-x-0 group-hover:border-[#0a0a0a]/20"
-                        }`}
-                      >
-                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                          <path d="M2 6h8M6 2l4 4-4 4" stroke="#0a0a0a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      </span>
-                    </div>
-
-                    {/* Thin bottom line reveal on hover */}
-                    <span className="pointer-events-none absolute bottom-[-1px] left-0 h-[1px] w-0 bg-[#0a0a0a] transition-all duration-300 group-hover:w-full" />
-                  </Link>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* RIGHT: High-Impact Video Preview Panel (spans 5 columns on desktop) */}
-          <div className="hidden lg:flex lg:col-span-5 flex-col items-center justify-center gap-4">
-            
-            {/* Aspect 16:10 Video Frame */}
-            <div
-              className="relative w-full overflow-hidden rounded-[1.25rem] bg-[#f0f0ed]"
-              style={{
-                aspectRatio: "16/10",
-                boxShadow: "0 30px 80px rgba(0,0,0,0.12)",
-                border: "1px solid rgba(0,0,0,0.06)",
-              }}
-            >
-              {portfolioWithRevenue.map((project) =>
-                project.video ? (
-                  <video
-                    key={project.slug}
-                    ref={(el) => {
-                      videoRefs.current[project.slug] = el;
-                    }}
-                    src={project.video}
-                    poster={project.image}
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out"
-                    style={{
-                      opacity: project.slug === activeSlug ? 1 : 0,
-                      pointerEvents: "none",
-                    }}
-                  />
-                ) : (
+        {/* Bento Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 md:gap-8">
+          {portfolio.map((project, idx) => {
+            const config = bentoConfigs[idx] || { span: "lg:col-span-6", aspect: "aspect-[16/10]" };
+            return (
+              <motion.div
+                key={project.slug}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.08 }}
+                onClick={() => setSelectedProject(project)}
+                className={`group relative overflow-hidden rounded-3xl bg-[#0a0a0a] border border-black/10 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer flex flex-col justify-between ${config.span} ${config.aspect}`}
+              >
+                {/* Media Container with optimal image fit */}
+                <div className="absolute inset-0 w-full h-full bg-black overflow-hidden flex items-center justify-center">
                   <img
-                    key={project.slug}
                     src={project.image}
                     alt={project.client}
-                    className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out"
-                    style={{
-                      opacity: project.slug === activeSlug ? 1 : 0,
-                      pointerEvents: "none",
-                    }}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
-                )
-              )}
+                  {/* Vignette overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent transition-opacity duration-300" />
+                </div>
 
-              {/* Subtly animated live preview badge */}
-              <div
-                className="absolute top-4 left-4 flex items-center gap-1.5 rounded-full px-2.5 py-1 z-10"
-                style={{
-                  background: "rgba(0,0,0,0.55)",
-                  border: "1px solid rgba(255,255,255,0.15)",
-                  backdropFilter: "blur(8px)",
-                }}
-              >
-                <span className="relative flex h-1.5 w-1.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-60" />
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white" />
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-dm-sans), sans-serif",
-                    fontSize: "0.5rem",
-                    letterSpacing: "0.22em",
-                    textTransform: "uppercase",
-                    color: "rgba(255,255,255,0.85)",
-                    fontWeight: 600,
-                  }}
-                >
-                  Preview
-                </span>
-              </div>
+                {/* Top Overlay Badges */}
+                <div className="relative z-10 p-6 md:p-8 flex items-center justify-between w-full">
+                  <span className="rounded-full bg-black/60 border border-white/15 px-3.5 py-1 text-[9px] font-bold text-white uppercase tracking-widest backdrop-blur-md">
+                    {project.category}
+                  </span>
+                  <span className="rounded-full bg-white/95 text-black px-3.5 py-1 text-[9px] font-bold tracking-wide shadow-md">
+                    {project.metric}
+                  </span>
+                </div>
 
-              {/* Metric Badge */}
-              <div
-                className="absolute top-4 right-4 rounded-full px-2.5 py-1 z-10"
-                style={{
-                  background: "rgba(0,0,0,0.55)",
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  backdropFilter: "blur(8px)",
-                  fontFamily: "var(--font-dm-sans), sans-serif",
-                  fontSize: "0.5625rem",
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.75)",
-                  fontWeight: 600,
-                }}
-              >
-                {activeProject.metric}
-              </div>
+                {/* Play Button Indicator for Video Case Studies */}
+                {project.video && (
+                  <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+                    <div className="w-14 h-14 rounded-full bg-black/60 border border-white/20 backdrop-blur-md flex items-center justify-center group-hover:scale-110 group-hover:bg-[#d4af37] group-hover:text-black text-white transition-all duration-300 shadow-2xl">
+                      <span className="text-sm ml-0.5">▶</span>
+                    </div>
+                  </div>
+                )}
 
-              {/* Subtle Vignette Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent pointer-events-none" />
-            </div>
-
-            {/* Project metadata under the frame */}
-            <div className="w-full px-1 flex justify-between items-start">
-              <div>
-                <p className="label-eyebrow text-[#0a0a0a]/38">{activeProject.category}</p>
-                <p
-                  className="mt-1 text-sm font-semibold tracking-[-0.02em] text-[#0a0a0a]"
-                  style={{ fontFamily: "var(--font-syne), sans-serif" }}
-                >
-                  {activeProject.client}
-                </p>
-              </div>
-              <div className="text-right">
-                <p className="label-eyebrow text-[#0a0a0a]/38">Revenue Impact</p>
-                <p
-                  className="mt-1 text-sm font-bold tracking-[-0.02em] text-[#0a0a0a]"
-                  style={{ fontFamily: "var(--font-syne), sans-serif" }}
-                >
-                  {activeProject.revenue}
-                </p>
-              </div>
-            </div>
-
-          </div>
-
+                {/* Bottom Content Info */}
+                <div className="relative z-10 p-6 md:p-8 text-white space-y-2">
+                  <span className="text-[10px] uppercase font-bold text-[#d4af37] tracking-widest">
+                    0{idx + 1} — Case Study
+                  </span>
+                  <h3
+                    className="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-white group-hover:text-[#d4af37] transition-colors duration-300"
+                    style={{ fontFamily: "var(--font-syne), sans-serif" }}
+                  >
+                    {project.client}
+                  </h3>
+                  <p className="text-xs text-white/70 line-clamp-2 font-light max-w-lg">
+                    {project.challenge}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
 
-        {/* Mobile: View all link */}
-        <div className="mt-10 flex justify-center md:hidden">
-          <Link
-            href="/work"
-            className="label-nav text-[#0a0a0a]/50 border-b border-[#0a0a0a]/15 pb-1 transition-colors hover:text-[#0a0a0a] hover:border-[#0a0a0a]"
-          >
-            View all projects →
-          </Link>
-        </div>
+        {/* Showcase Modal for Bento Grid Cards */}
+        <AnimatePresence>
+          {selectedProject && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedProject(null)}
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-black/80 backdrop-blur-md"
+            >
+              <motion.div
+                initial={{ scale: 0.95, y: 20 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.95, y: 20 }}
+                transition={{ type: "spring", damping: 25, stiffness: 220 }}
+                onClick={(e) => e.stopPropagation()}
+                className="relative w-full max-w-3xl bg-[#0a0a0a] text-white rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[85vh] border border-white/10"
+              >
+                {/* Close Button */}
+                <button
+                  onClick={() => setSelectedProject(null)}
+                  className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/60 border border-white/10 hover:bg-white/20 transition-all duration-200 z-50 flex items-center justify-center cursor-pointer"
+                  aria-label="Close"
+                >
+                  <span className="text-sm">✕</span>
+                </button>
+
+                {/* Video Player or Detail Image */}
+                <div className="aspect-video w-full bg-black relative border-b border-white/10 overflow-hidden flex items-center justify-center">
+                  {selectedProject.video ? (
+                    <video
+                      src={selectedProject.video}
+                      poster={selectedProject.image}
+                      controls
+                      autoPlay
+                      loop
+                      playsInline
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <img
+                      src={(selectedProject as any).detailImage || selectedProject.image}
+                      alt={selectedProject.client}
+                      className="w-full h-full object-contain bg-black/90"
+                    />
+                  )}
+                </div>
+
+                {/* Narrative Sections */}
+                <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-6">
+                    <div>
+                      <span className="text-[10px] uppercase tracking-widest text-[#d4af37] font-bold block mb-1">
+                        {selectedProject.category}
+                      </span>
+                      <h2
+                        className="text-2xl md:text-3xl font-bold tracking-tight"
+                        style={{ fontFamily: "var(--font-syne), sans-serif" }}
+                      >
+                        {selectedProject.client}
+                      </h2>
+                    </div>
+                    <div className="rounded-2xl bg-white/5 border border-white/10 px-4 py-2 shrink-0">
+                      <span className="text-xs text-white/40 block text-center mb-0.5">Primary Outcome</span>
+                      <span className="text-xl font-bold text-white tracking-tight" style={{ fontFamily: "var(--font-syne), sans-serif" }}>
+                        {selectedProject.metric}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-1">The Challenge</h4>
+                      <p className="text-sm text-white/70 leading-relaxed font-light">{selectedProject.challenge}</p>
+                    </div>
+
+                    <div>
+                      <h4 className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-1">Strategy & Execution</h4>
+                      <p className="text-sm text-white/70 leading-relaxed font-light">{selectedProject.approach}</p>
+                    </div>
+
+                    <div>
+                      <h4 className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-2">Key Outcomes</h4>
+                      <ul className="space-y-2">
+                        {selectedProject.results?.map((res, i) => (
+                          <li key={i} className="flex items-start gap-2.5 text-sm text-white/80 font-light">
+                            <span className="text-[#d4af37] mt-0.5 shrink-0">✦</span>
+                            <span>{res}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Footer CTA */}
+                <div className="p-6 border-t border-white/5 bg-[#0a0a0a]">
+                  <Link
+                    href="/contact"
+                    onClick={() => setSelectedProject(null)}
+                    className="flex items-center justify-center gap-3 w-full py-4 rounded-xl font-bold bg-white text-black hover:bg-[#d4af37] transition-all duration-300 group"
+                    style={{ fontFamily: "var(--font-syne), sans-serif", fontSize: "0.875rem" }}
+                  >
+                    <span>Discuss A Similar Campaign</span>
+                    <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span>
+                  </Link>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
       </div>
     </Section>
