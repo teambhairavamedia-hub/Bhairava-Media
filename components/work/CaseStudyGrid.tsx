@@ -174,20 +174,23 @@ export function CaseStudyGrid() {
                 >
                   {/* Media container */}
                   <div className="aspect-video w-full relative overflow-hidden bg-black border-b border-black/5">
-                    <video
-                      ref={(el) => {
-                        videoRefs.current[idx] = el;
-                      }}
-                      src={project.video}
-                      poster={project.image}
-                      muted
-                      loop
-                      playsInline
-                      className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500"
+                    <img
+                      src={project.image}
+                      alt={project.client}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     
                     {/* Dark gradient mask */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+
+                    {/* Play Video Indicator if video exists */}
+                    {project.video && (
+                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <div className="w-12 h-12 rounded-full bg-black/60 border border-white/20 backdrop-blur-md flex items-center justify-center group-hover:scale-110 group-hover:bg-[#d4af37] group-hover:text-black text-white transition-all duration-300 shadow-lg">
+                          <span className="text-xs ml-0.5">▶</span>
+                        </div>
+                      </div>
+                    )}
 
                     {/* Quick Metric overlay */}
                     <div className="absolute bottom-3 left-3 rounded-full bg-black/60 border border-white/10 px-3 py-1 backdrop-blur-md">
@@ -361,13 +364,9 @@ export function CaseStudyGrid() {
                 transition={{ duration: 0.25, ease: "easeOut" }}
                 className="fixed pointer-events-none z-40 w-[320px] aspect-[16/10] rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10"
               >
-                <video
-                  src={filteredProjects[hoveredIndex].video}
-                  poster={filteredProjects[hoveredIndex].image}
-                  muted
-                  autoPlay
-                  loop
-                  playsInline
+                <img
+                  src={filteredProjects[hoveredIndex].image}
+                  alt={filteredProjects[hoveredIndex].client}
                   className="w-full h-full object-cover"
                 />
               </motion.div>
@@ -403,18 +402,25 @@ export function CaseStudyGrid() {
                 <span className="text-sm">✕</span>
               </button>
 
-              {/* Video Player */}
-              <div className="aspect-video w-full bg-black relative border-b border-white/10">
-                <video
-                  src={selectedProject.video}
-                  poster={selectedProject.image}
-                  controls
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="w-full h-full object-cover"
-                />
+              {/* Video Player / Detail Image */}
+              <div className="aspect-video w-full bg-black relative border-b border-white/10 overflow-hidden flex items-center justify-center">
+                {selectedProject.video ? (
+                  <video
+                    src={selectedProject.video}
+                    poster={selectedProject.image}
+                    controls
+                    autoPlay
+                    loop
+                    playsInline
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <img
+                    src={(selectedProject as any).detailImage || selectedProject.image}
+                    alt={selectedProject.client}
+                    className="w-full h-full object-contain bg-black/90"
+                  />
+                )}
               </div>
 
               {/* Content Area */}

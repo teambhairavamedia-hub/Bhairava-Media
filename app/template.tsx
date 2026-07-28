@@ -19,10 +19,10 @@ export default function Template({ children }: { children: React.ReactNode }) {
 
   return (
     <motion.div
-      initial={isHomeFirstVisit ? false : { opacity: 0, y: 12 }}
-      animate={isHomeFirstVisit ? false : { opacity: 1, y: 0 }}
-      exit={isHomeFirstVisit ? false : { opacity: 0, y: -12 }}
-      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      initial={isHomeFirstVisit ? undefined : { opacity: 0, y: 12 }}
+      animate={isHomeFirstVisit ? undefined : { opacity: 1, y: 0 }}
+      exit={isHomeFirstVisit ? undefined : { opacity: 0, y: -12 }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] as const }}
     >
       {children}
     </motion.div>

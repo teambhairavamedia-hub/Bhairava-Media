@@ -75,7 +75,7 @@ const values = [
 
 export default function AboutPage() {
   const [activeTab, setActiveTab] = useState<"vision" | "background" | "philosophy">("vision");
-  const timelineRef = useRef<HTMLElement>(null);
+  const timelineRef = useRef<HTMLDivElement>(null);
 
   // Set up scroll progress tracking for the timeline line animation
   const { scrollYProgress } = useScroll({

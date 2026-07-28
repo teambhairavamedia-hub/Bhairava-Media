@@ -868,25 +868,38 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
                 border: "1px solid rgba(0,0,0,0.06)",
               }}
             >
-              {portfolioWithRevenue.map((project) => (
-                <video
-                  key={project.slug}
-                  ref={(el) => {
-                    videoRefs.current[project.slug] = el;
-                  }}
-                  src={project.video}
-                  poster={project.image}
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out"
-                  style={{
-                    opacity: project.slug === activeSlug ? 1 : 0,
-                    pointerEvents: "none",
-                  }}
-                />
-              ))}
+              {portfolioWithRevenue.map((project) =>
+                project.video ? (
+                  <video
+                    key={project.slug}
+                    ref={(el) => {
+                      videoRefs.current[project.slug] = el;
+                    }}
+                    src={project.video}
+                    poster={project.image}
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out"
+                    style={{
+                      opacity: project.slug === activeSlug ? 1 : 0,
+                      pointerEvents: "none",
+                    }}
+                  />
+                ) : (
+                  <img
+                    key={project.slug}
+                    src={project.image}
+                    alt={project.client}
+                    className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out"
+                    style={{
+                      opacity: project.slug === activeSlug ? 1 : 0,
+                      pointerEvents: "none",
+                    }}
+                  />
+                )
+              )}
 
               {/* Subtly animated live preview badge */}
               <div
