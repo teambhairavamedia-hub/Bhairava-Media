@@ -96,7 +96,7 @@ export default function ContactPage() {
                   {[
                     { label: "LinkedIn", url: "https://linkedin.com/in/rajesh-waghchaware" },
                     { label: "Twitter", url: "https://twitter.com/rajesh_w" },
-                    { label: "Instagram", url: "https://instagram.com/rajesh_waghchaware" },
+                    { label: "Instagram", url: "https://www.instagram.com/bhairava.media/" },
                   ].map((soc) => (
                     <a
                       key={soc.label}

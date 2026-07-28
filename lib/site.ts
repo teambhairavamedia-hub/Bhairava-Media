@@ -5,7 +5,7 @@ export const siteConfig = {
     "A modern media and marketing company dedicated to building powerful brand presence through innovative content, digital marketing, and AI-powered solutions.",
   email: "hello@bhairavamedia.com",
   social: {
-    instagram: "https://instagram.com/bhairavamedia",
+    instagram: "https://www.instagram.com/bhairava.media/",
     linkedin: "https://linkedin.com/company/bhairavamedia",
     twitter: "https://twitter.com/bhairavamedia",
   },

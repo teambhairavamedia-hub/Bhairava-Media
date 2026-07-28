@@ -120,37 +120,42 @@ export default function AboutPage() {
           <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr] items-stretch">
 
             {/* Founder Visual & Social Card */}
-            <div className="relative rounded-[2.5rem] overflow-hidden border border-[#e4e4e7] bg-[#f4f4f5] shadow-2xl flex flex-col justify-end p-8 md:p-12 min-h-[450px] lg:min-h-[550px] group">
-              {/* Graphic gradients */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/90 via-[#0a0a0a]/30 to-transparent z-10" />
-              <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.18),transparent)]" />
-              <div className="absolute bottom-[-10%] right-[-10%] w-[350px] h-[350px] rounded-full bg-[#fce7f3] opacity-25 blur-3xl z-0" />
+            <div className="relative rounded-[2.5rem] overflow-hidden border border-[#e4e4e7] bg-[#0a0a0a] shadow-2xl flex flex-col justify-end p-8 md:p-12 min-h-[450px] lg:min-h-[550px] group">
+              {/* Founder Image */}
+              <img
+                src="/media/founder/founder.jpg"
+                alt="Rajesh Waghchaware - Founder & Creative Director"
+                className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-103 transition-transform duration-700 ease-out z-0"
+              />
+
+              {/* Dark Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent z-10" />
 
               <div className="relative z-20 text-white flex flex-col h-full justify-between">
                 <div className="flex justify-between items-start">
-                  <span className="text-[10px] uppercase tracking-[0.25em] text-white/50 border border-white/10 rounded-full px-4 py-1.5 backdrop-filter backdrop-blur-md">
+                  <span className="text-[10px] uppercase tracking-[0.25em] text-white/80 border border-white/20 rounded-full px-4 py-1.5 backdrop-filter backdrop-blur-md bg-black/40">
                     Founder Profile
                   </span>
                 </div>
 
                 <div>
-                  <h3 className="text-3xl md:text-4xl font-extrabold tracking-tight" style={{ fontFamily: "var(--font-syne), sans-serif" }}>
+                  <h3 className="text-3xl md:text-4xl font-extrabold tracking-tight drop-shadow-md" style={{ fontFamily: "var(--font-syne), sans-serif" }}>
                     Rajesh Waghchaware
                   </h3>
-                  <p className="text-white/55 text-xs md:text-sm font-semibold tracking-wider uppercase mt-1">
+                  <p className="text-white/70 text-xs md:text-sm font-semibold tracking-wider uppercase mt-1">
                     Founder &amp; Creative Director
                   </p>
-                  <p className="mt-4 text-sm text-white/70 font-light leading-relaxed max-w-md">
+                  <p className="mt-4 text-sm text-white/85 font-light leading-relaxed max-w-md">
                     Directing creative strategies, growth analytics pipelines, and cinematic production for high-growth brands globally.
                   </p>
 
                   {/* Quick Socials */}
-                  <div className="mt-8 pt-6 border-t border-white/10 flex items-center gap-4">
+                  <div className="mt-8 pt-6 border-t border-white/15 flex items-center gap-4">
                     <a
                       href="https://linkedin.com/in/rajesh-waghchaware"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-white transition-all duration-300 hover:scale-105"
+                      className="w-10 h-10 rounded-full bg-black/40 hover:bg-white/20 border border-white/20 flex items-center justify-center text-white transition-all duration-300 hover:scale-105 backdrop-blur-md"
                       aria-label="LinkedIn"
                     >
                       <LinkedInIcon />
@@ -159,16 +164,16 @@ export default function AboutPage() {
                       href="https://twitter.com/rajesh_w"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-white transition-all duration-300 hover:scale-105"
+                      className="w-10 h-10 rounded-full bg-black/40 hover:bg-white/20 border border-white/20 flex items-center justify-center text-white transition-all duration-300 hover:scale-105 backdrop-blur-md"
                       aria-label="Twitter/X"
                     >
                       <TwitterIcon />
                     </a>
                     <a
-                      href="https://instagram.com/rajesh_waghchaware"
+                      href="https://www.instagram.com/bhairava.media/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-white transition-all duration-300 hover:scale-105"
+                      className="w-10 h-10 rounded-full bg-black/40 hover:bg-white/20 border border-white/20 flex items-center justify-center text-white transition-all duration-300 hover:scale-105 backdrop-blur-md"
                       aria-label="Instagram"
                     >
                       <InstagramIcon />
