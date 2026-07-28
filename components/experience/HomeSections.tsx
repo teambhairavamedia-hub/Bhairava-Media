@@ -478,6 +478,7 @@ export function FullscreenShowreel() {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoWrapperRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMuted, setIsMuted] = useState(true);
 
   useEffect(() => {
     registerGsap();
@@ -531,33 +532,55 @@ export function FullscreenShowreel() {
     return () => ctx.revert();
   }, []);
 
+  const toggleSound = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
+    }
+  };
+
   return (
     <div
       ref={containerRef}
       className="relative h-screen w-full bg-white overflow-hidden"
     >
       <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
-        <h2 className="showreel-title text-[#0a0a0a] text-[clamp(2.5rem,8vw,7rem)] font-extrabold tracking-[-0.04em] uppercase text-center">
+        <h2
+          className="showreel-title text-[#0a0a0a] text-[clamp(2.5rem,8vw,7rem)] font-extrabold tracking-[-0.04em] uppercase text-center drop-shadow-sm select-none"
+          style={{ fontFamily: "var(--font-syne), sans-serif" }}
+        >
           Creative Showreel
         </h2>
       </div>
 
-      <div className="flex h-full items-center justify-center w-full">
+      <div className="flex h-full items-center justify-center w-full relative">
         <div
           ref={videoWrapperRef}
-          className="relative w-[60vw] h-[60vh] rounded-[2.5rem] overflow-hidden border border-[#e4e4e7] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)] bg-[#f4f4f5]"
+          className="relative w-[60vw] h-[60vh] rounded-[2.5rem] overflow-hidden border border-[#e4e4e7] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)] bg-[#0a0a0a]"
           style={{ willChange: "transform" }}
         >
           <video
             ref={videoRef}
-            src="https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
-            muted
+            src="/media/podcast/video.mp4"
+            muted={isMuted}
             loop
             playsInline
             preload="metadata"
             className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-white/10 pointer-events-none" />
+          <div className="absolute inset-0 bg-black/10 pointer-events-none" />
+
+          {/* Sound Toggle Button */}
+          <button
+            onClick={toggleSound}
+            className="absolute bottom-6 right-6 z-30 flex items-center gap-2 rounded-full bg-black/60 border border-white/20 px-4 py-2 text-white backdrop-blur-md hover:bg-black/80 transition-all duration-300 shadow-xl cursor-pointer"
+            aria-label={isMuted ? "Unmute video" : "Mute video"}
+          >
+            <span className="text-xs">{isMuted ? "🔇" : "🔊"}</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider">
+              {isMuted ? "Enable Sound" : "Mute Sound"}
+            </span>
+          </button>
         </div>
       </div>
     </div>
