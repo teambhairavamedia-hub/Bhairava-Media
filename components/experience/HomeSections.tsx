@@ -728,14 +728,14 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
 
   const portfolio = experienceConfig.portfolio;
 
-  // Asymmetrical Bento Grid column & aspect ratios
+  // Unified Bento Grid layout configuration — zero gaps, equal row heights
   const bentoConfigs = [
-    { span: "lg:col-span-8", aspect: "aspect-[16/10] md:aspect-[16/9]" }, // IDFC FIRST Bank (Hero Wide)
-    { span: "lg:col-span-4", aspect: "aspect-[4/5] md:aspect-[16/10]" },  // Quberx (Tall)
-    { span: "lg:col-span-4", aspect: "aspect-[4/5] md:aspect-[16/10]" },  // Adhyaksh (Tall)
-    { span: "lg:col-span-8", aspect: "aspect-[16/10] md:aspect-[16/9]" }, // Erik & Vinmayi Music '96 (Hero Wide)
-    { span: "lg:col-span-6", aspect: "aspect-[16/10]" },                 // Zat Pat Pata Pat
-    { span: "lg:col-span-6", aspect: "aspect-[16/10]" },                 // Commercial Youth
+    { span: "lg:col-span-8", height: "h-[360px] md:h-[420px]" }, // IDFC FIRST Bank (Row 1 Left)
+    { span: "lg:col-span-4", height: "h-[360px] md:h-[420px]" }, // Quberx (Row 1 Right)
+    { span: "lg:col-span-4", height: "h-[360px] md:h-[420px]" }, // Adhyaksh (Row 2 Left)
+    { span: "lg:col-span-8", height: "h-[360px] md:h-[420px]" }, // Zat Pat Pata Pat (Row 2 Right)
+    { span: "lg:col-span-6", height: "h-[340px] md:h-[380px]" }, // Erik & Vinmayi Music '96 (Row 3 Left)
+    { span: "lg:col-span-6", height: "h-[340px] md:h-[380px]" }, // Commercial Youth (Row 3 Right)
   ];
 
   return (
@@ -768,10 +768,10 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
           </Link>
         </div>
 
-        {/* Bento Grid */}
+        {/* Seamless Bento Grid with Zero Gaps */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 md:gap-8">
           {portfolio.map((project, idx) => {
-            const config = bentoConfigs[idx] || { span: "lg:col-span-6", aspect: "aspect-[16/10]" };
+            const config = bentoConfigs[idx] || { span: "lg:col-span-6", height: "h-[360px] md:h-[400px]" };
             return (
               <motion.div
                 key={project.slug}
@@ -780,7 +780,7 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.08 }}
                 onClick={() => setSelectedProject(project)}
-                className={`group relative overflow-hidden rounded-3xl bg-[#0a0a0a] border border-black/10 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer flex flex-col justify-between ${config.span} ${config.aspect}`}
+                className={`group relative overflow-hidden rounded-3xl bg-[#0a0a0a] border border-black/10 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer flex flex-col justify-between ${config.span} ${config.height}`}
               >
                 {/* Media Container with optimal image fit */}
                 <div className="absolute inset-0 w-full h-full bg-black overflow-hidden flex items-center justify-center">
