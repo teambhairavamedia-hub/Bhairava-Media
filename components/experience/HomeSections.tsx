@@ -505,16 +505,7 @@ export function FullscreenShowreel() {
           scale: 1.67,
           borderRadius: "0px",
           ease: "none",
-        })
-        .to(
-          ".showreel-title",
-          {
-            opacity: 0,
-            y: -20,
-            ease: "none",
-          },
-          0
-        );
+        });
     }, container);
 
     const video = videoRef.current;
@@ -544,15 +535,6 @@ export function FullscreenShowreel() {
       ref={containerRef}
       className="relative h-screen w-full bg-white overflow-hidden"
     >
-      <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
-        <h2
-          className="showreel-title text-[#0a0a0a] text-[clamp(2.5rem,8vw,7rem)] font-extrabold tracking-[-0.04em] uppercase text-center drop-shadow-sm select-none"
-          style={{ fontFamily: "var(--font-syne), sans-serif" }}
-        >
-          Creative Showreel
-        </h2>
-      </div>
-
       <div className="flex h-full items-center justify-center w-full relative">
         <div
           ref={videoWrapperRef}
