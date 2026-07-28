@@ -102,40 +102,18 @@ export const experienceConfig = {
   ],
   reels: [
     {
-      title: "Product Drop",
-      views: "4.2M",
+      title: "About Bhairava Media",
+      views: "4.8M Views",
       gradient: "from-violet-500 via-fuchsia-500 to-orange-400",
-      video:
-        "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-      poster:
-        "https://images.unsplash.com/photo-1611162617474-5b21e039e967?w=600&auto=format&fit=crop&q=80",
+      video: "/media/reels/reel_1.mp4",
+      poster: "/media/idfc/cover.jpg",
     },
     {
-      title: "Founder Story",
-      views: "2.8M",
+      title: "How Bhairava Media Drives Brand Impact",
+      views: "6.2M Views",
       gradient: "from-cyan-400 via-blue-500 to-indigo-600",
-      video:
-        "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-      poster:
-        "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&auto=format&fit=crop&q=80",
-    },
-    {
-      title: "Campaign Cut",
-      views: "6.1M",
-      gradient: "from-emerald-400 via-teal-500 to-cyan-500",
-      video:
-        "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
-      poster:
-        "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&auto=format&fit=crop&q=80",
-    },
-    {
-      title: "UGC Series",
-      views: "3.5M",
-      gradient: "from-rose-500 via-red-500 to-amber-500",
-      video:
-        "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
-      poster:
-        "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&auto=format&fit=crop&q=80",
+      video: "/media/reels/reel_2.mp4",
+      poster: "/media/quberx/cover.jpeg",
     },
   ],
   metrics: [

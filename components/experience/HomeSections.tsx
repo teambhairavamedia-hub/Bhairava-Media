@@ -1007,6 +1007,7 @@ type ReelStackProps = {
 export function ReelStack({ ready = true }: ReelStackProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const { reels } = experienceConfig;
 
@@ -1024,10 +1025,23 @@ export function ReelStack({ ready = true }: ReelStackProps) {
   useEffect(() => {
     videoRefs.current.forEach((v, i) => {
       if (!v) return;
-      if (i === activeIndex) void v.play().catch(() => {});
-      else { v.pause(); v.currentTime = 0; }
+      if (i === activeIndex) {
+        v.muted = isMuted;
+        void v.play().catch(() => {});
+      } else {
+        v.pause();
+        v.currentTime = 0;
+      }
     });
-  }, [activeIndex]);
+  }, [activeIndex, isMuted]);
+
+  const toggleSound = () => {
+    const activeVideo = videoRefs.current[activeIndex];
+    if (activeVideo) {
+      activeVideo.muted = !isMuted;
+      setIsMuted(!isMuted);
+    }
+  };
 
   return (
     <Section theme="dark" className="relative" style={{ background: "#080808" }}>
@@ -1057,7 +1071,10 @@ export function ReelStack({ ready = true }: ReelStackProps) {
                   ref={(el) => { videoRefs.current[index] = el; }}
                   src={reel.video}
                   poster={reel.poster}
-                  muted loop playsInline preload="metadata"
+                  muted={isMuted}
+                  loop
+                  playsInline
+                  preload="metadata"
                   style={{
                     position: "absolute", inset: 0,
                     width: "100%", height: "100%",
@@ -1068,6 +1085,32 @@ export function ReelStack({ ready = true }: ReelStackProps) {
                   }}
                 />
               ))}
+
+              {/* Sound Toggle Button */}
+              <button
+                onClick={toggleSound}
+                style={{
+                  position: "absolute",
+                  bottom: 50,
+                  right: 12,
+                  zIndex: 20,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  borderRadius: 100,
+                  border: "1px solid rgba(255,255,255,0.2)",
+                  background: "rgba(0,0,0,0.65)",
+                  padding: "5px 12px",
+                  backdropFilter: "blur(8px)",
+                  color: "white",
+                  cursor: "pointer",
+                }}
+              >
+                <span style={{ fontSize: "0.75rem" }}>{isMuted ? "🔇" : "🔊"}</span>
+                <span style={{ fontSize: "0.5625rem", letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "var(--font-dm-sans), sans-serif", fontWeight: 700 }}>
+                  {isMuted ? "Sound Off" : "Sound On"}
+                </span>
+              </button>
 
               {/* Live badge */}
               <div style={{ position: "absolute", top: 12, left: 12, zIndex: 10, display: "flex", alignItems: "center", gap: 6, borderRadius: 100, border: "1px solid rgba(255,255,255,0.18)", background: "rgba(0,0,0,0.55)", padding: "5px 10px", backdropFilter: "blur(8px)" }}>
@@ -1080,7 +1123,7 @@ export function ReelStack({ ready = true }: ReelStackProps) {
 
               {/* Bottom info */}
               <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 10, background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 100%)", padding: "2.5rem 1rem 1rem" }}>
-                <p style={{ fontSize: "0.5625rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", fontFamily: "var(--font-dm-sans), sans-serif" }}>{reels[activeIndex]?.views} views</p>
+                <p style={{ fontSize: "0.5625rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", fontFamily: "var(--font-dm-sans), sans-serif" }}>{reels[activeIndex]?.views}</p>
                 <p style={{ fontFamily: "var(--font-syne), sans-serif", fontWeight: 600, color: "white", fontSize: "0.9rem", letterSpacing: "-0.02em", marginTop: "0.2rem" }}>{reels[activeIndex]?.title}</p>
               </div>
             </div>
