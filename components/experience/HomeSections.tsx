@@ -865,27 +865,28 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
           {/* RIGHT: Side-by-Side Interactive Preview Panel (spans 5 columns on desktop) */}
           <div className="hidden lg:flex lg:col-span-5 flex-col items-center justify-center gap-4">
             
-            {/* Dynamic Aspect Ratio Preview Frame matching exact item resolution */}
-            <div
+            {/* Dynamic Aspect Ratio Preview Frame with AnimatePresence to prevent crossfade ghosting */}
+            <motion.div
+              layout
               onClick={() => setSelectedProject(activeProject)}
-              className="relative w-full max-w-[420px] overflow-hidden rounded-[1.25rem] bg-[#0a0a0a] border border-black/10 shadow-2xl cursor-pointer group flex items-center justify-center transition-all duration-500 ease-out"
+              className="relative w-full max-w-[420px] overflow-hidden rounded-[1.25rem] bg-[#0a0a0a] border border-black/10 shadow-2xl cursor-pointer group flex items-center justify-center transition-all duration-300 ease-out"
               style={{
                 aspectRatio: (activeProject as any).aspectRatio || "16/9",
                 maxHeight: "500px",
               }}
             >
-              {portfolioWithRevenue.map((project) => (
-                <div
-                  key={project.slug}
-                  className="absolute inset-0 w-full h-full transition-opacity duration-500 ease-out flex items-center justify-center overflow-hidden bg-[#0a0a0a]"
-                  style={{
-                    opacity: project.slug === activeSlug ? 1 : 0,
-                    pointerEvents: project.slug === activeSlug ? "auto" : "none",
-                  }}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeProject.slug}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2, ease: "easeInOut" }}
+                  className="absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden bg-[#0a0a0a]"
                 >
                   {/* Ambient background blur so container edges blend seamlessly */}
                   <img
-                    src={project.image}
+                    src={activeProject.image}
                     alt=""
                     aria-hidden="true"
                     className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110 pointer-events-none"
@@ -893,13 +894,13 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
 
                   {/* Main media element — 100% full uncropped cover image fit */}
                   <img
-                    src={project.image}
-                    alt={project.client}
+                    src={activeProject.image}
+                    alt={activeProject.client}
                     className="relative z-0 w-full h-full object-contain p-1 group-hover:scale-102 transition-transform duration-500 ease-out"
                   />
 
                   {/* Play badge for video case studies */}
-                  {project.video && (
+                  {activeProject.video && (
                     <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
                       <div className="w-12 h-12 rounded-full bg-black/65 border border-white/25 backdrop-blur-md flex items-center justify-center group-hover:scale-110 group-hover:bg-[#d4af37] group-hover:text-black text-white transition-all duration-300 shadow-xl">
                         <span className="text-xs ml-0.5">▶</span>
@@ -909,8 +910,8 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
 
                   {/* Vignette mask */}
                   <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-                </div>
-              ))}
+                </motion.div>
+              </AnimatePresence>
 
               {/* Top-Left Live Preview Badge */}
               <div
@@ -956,7 +957,7 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
               >
                 {activeProject.metric}
               </div>
-            </div>
+            </motion.div>
 
             {/* Project Metadata Under the Preview Card */}
             <div className="w-full px-1 flex justify-between items-start">
