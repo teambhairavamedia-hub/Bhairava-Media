@@ -1180,11 +1180,11 @@ export function ReelStack({ ready = true }: ReelStackProps) {
                   key={reel.title}
                   ref={(el) => { videoRefs.current[index] = el; }}
                   src={reel.video}
-                  poster={reel.poster}
+                  autoPlay
                   muted={isMuted}
                   loop
                   playsInline
-                  preload="metadata"
+                  preload="auto"
                   style={{
                     position: "absolute", inset: 0,
                     width: "100%", height: "100%",
@@ -1323,7 +1323,7 @@ export function ReelStack({ ready = true }: ReelStackProps) {
                           {reel.title}
                         </p>
                         <p style={{ fontSize: "0.625rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginTop: "0.2rem", fontFamily: "var(--font-dm-sans), sans-serif" }}>
-                          {reel.views} views
+                          {reel.views}
                         </p>
                       </div>
                     </div>
@@ -1395,11 +1395,11 @@ export function ReelStack({ ready = true }: ReelStackProps) {
                   background: "#111",
                 }}
               >
-                <video src={reel.video} poster={reel.poster} muted loop playsInline preload="metadata"
+                <video src={reel.video} autoPlay muted loop playsInline preload="auto"
                   style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%)" }} />
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "0.875rem" }}>
-                  <p style={{ fontSize: "0.5625rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.40)", fontFamily: "var(--font-dm-sans), sans-serif" }}>{reel.views} views</p>
+                  <p style={{ fontSize: "0.5625rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.40)", fontFamily: "var(--font-dm-sans), sans-serif" }}>{reel.views}</p>
                   <p style={{ fontFamily: "var(--font-syne), sans-serif", fontWeight: 600, fontSize: "0.8125rem", color: "white", marginTop: "0.2rem" }}>{reel.title}</p>
                 </div>
               </div>

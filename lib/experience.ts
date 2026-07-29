@@ -112,14 +112,12 @@ export const experienceConfig = {
       views: "4.8M Views",
       gradient: "from-violet-500 via-fuchsia-500 to-orange-400",
       video: "/media/reels/reel_1.mp4",
-      poster: "/media/idfc/cover.jpg",
     },
     {
       title: "How Bhairava Media Drives Brand Impact",
       views: "6.2M Views",
       gradient: "from-cyan-400 via-blue-500 to-indigo-600",
       video: "/media/reels/reel_2.mp4",
-      poster: "/media/quberx/cover.jpeg",
     },
   ],
   metrics: [
