@@ -214,7 +214,7 @@ export default function AboutPage() {
                     {activeTab === tab && (
                       <motion.div
                         layoutId="activeTabUnderline"
-                        className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#0a0a0a]"
+                        className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#800000]"
                       />
                     )}
                   </button>

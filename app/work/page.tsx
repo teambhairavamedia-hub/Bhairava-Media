@@ -28,7 +28,7 @@ export default function WorkPage() {
       </Section>
 
       {/* Results Marquee Banner */}
-      <Section theme="dark" className="py-5 md:py-6 overflow-hidden border-t border-black/5" style={{ background: "#0a0a0a" }}>
+      <Section theme="dark" className="py-5 md:py-6 overflow-hidden border-t border-white/10" style={{ background: "#800000" }}>
         <div className="flex whitespace-nowrap gap-12 animate-[marquee-stats_20s_linear_infinite]">
           {[
             "120M+ Views Delivered",

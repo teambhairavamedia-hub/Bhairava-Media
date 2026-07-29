@@ -117,7 +117,7 @@ export function Header() {
                       color: isActive ? fgColor : fgMuted,
                       padding: "0.45rem 1rem",
                       background: isActive
-                        ? isDark ? "rgba(255,255,255,0.08)" : "rgba(10,10,10,0.055)"
+                        ? isDark ? "rgba(255,255,255,0.08)" : "rgba(128,0,0,0.055)"
                         : "transparent",
                     }}
                     onMouseEnter={(e) => {
@@ -145,8 +145,8 @@ export function Header() {
                   fontWeight: 600,
                   letterSpacing: "0.18em",
                   textTransform: "uppercase",
-                  color: isDark ? "#0a0a0a" : "#ffffff",
-                  background: isDark ? "#ffffff" : "#0a0a0a",
+                  color: "#ffffff",
+                  background: "#0a0a0a",
                   padding: "0.55rem 1.25rem",
                 }}
                 onMouseEnter={(e) => {
@@ -250,8 +250,8 @@ export function Header() {
                     fontWeight: 600,
                     letterSpacing: "0.18em",
                     textTransform: "uppercase",
-                    color: isDark ? "#0a0a0a" : "#ffffff",
-                    background: isDark ? "#ffffff" : "#0a0a0a",
+                    color: "#ffffff",
+                    background: "#0a0a0a",
                   }}
                 >
                   {siteConfig.cta.label}

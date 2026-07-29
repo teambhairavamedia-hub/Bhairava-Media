@@ -275,7 +275,7 @@ export function AboutSnap() {
   ];
 
   return (
-    <section style={{ background: "#0a0a0a", position: "relative", overflow: "hidden" }}>
+    <section style={{ background: "#800000", position: "relative", overflow: "hidden" }}>
       {/* Subtle glow */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "-10%", left: "-5%", width: 500, height: 500, borderRadius: "50%", background: "rgba(255,255,255,0.018)", filter: "blur(80px)" }} />
@@ -538,7 +538,7 @@ export function FullscreenShowreel() {
       <div className="flex h-full items-center justify-center w-full relative">
         <div
           ref={videoWrapperRef}
-          className="relative w-[60vw] h-[60vh] rounded-[2.5rem] overflow-hidden border border-[#e4e4e7] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)] bg-[#0a0a0a]"
+          className="relative w-[60vw] h-[60vh] rounded-[2.5rem] overflow-hidden border border-[#e4e4e7] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)] bg-[#800000]"
           style={{ willChange: "transform" }}
         >
           <video
@@ -826,7 +826,7 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
                       </span>
 
                       <h3
-                        className="truncate text-[clamp(1.25rem,2.2vw,2rem)] font-bold leading-none tracking-[-0.03em] text-[#0a0a0a] transition-all duration-300 group-hover:text-black"
+                        className="truncate text-[clamp(1.25rem,2.2vw,2rem)] font-bold leading-none tracking-[-0.03em] text-[#0a0a0a] transition-all duration-300 group-hover:text-[#0a0a0a]"
                         style={{ fontFamily: "var(--font-syne), sans-serif" }}
                       >
                         {project.client}
@@ -842,10 +842,10 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
                       
                       {/* Interactive Arrow Button */}
                       <span
-                        className={`flex h-8 w-8 items-center justify-center rounded-full border border-[#0a0a0a]/10 transition-all duration-300 ${
+                        className={`flex h-8 w-8 items-center justify-center rounded-full border border-black/10 transition-all duration-300 ${
                           isActive
-                            ? "opacity-100 translate-x-0 border-[#0a0a0a]/30 bg-black text-white"
-                            : "opacity-0 translate-x-[-6px] group-hover:opacity-100 group-hover:translate-x-0 group-hover:border-[#0a0a0a]/20"
+                            ? "opacity-100 translate-x-0 border-black/30 bg-black text-white"
+                            : "opacity-0 translate-x-[-6px] group-hover:opacity-100 group-hover:translate-x-0 group-hover:border-black/20"
                         }`}
                       >
                         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -855,7 +855,7 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
                     </div>
 
                     {/* Bottom hover indicator line */}
-                    <span className="pointer-events-none absolute bottom-[-1px] left-0 h-[1px] w-0 bg-[#0a0a0a] transition-all duration-300 group-hover:w-full" />
+                    <span className="pointer-events-none absolute bottom-[-1px] left-0 h-[1px] w-0 bg-black transition-all duration-300 group-hover:w-full" />
                   </div>
                 </div>
               );
@@ -868,7 +868,7 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
             {/* Dynamic Aspect Ratio Preview Frame matching exact video/image size */}
             <div
               onClick={() => setSelectedProject(activeProject)}
-              className="relative w-full max-w-[440px] overflow-hidden rounded-[1.25rem] bg-[#0a0a0a] border border-black/10 shadow-2xl cursor-pointer group flex items-center justify-center transition-all duration-300 ease-out"
+              className="relative w-full max-w-[440px] overflow-hidden rounded-[1.25rem] bg-[#800000] border border-white/10 shadow-2xl cursor-pointer group flex items-center justify-center transition-all duration-300 ease-out"
               style={{
                 aspectRatio: (activeProject as any).aspectRatio || "16/9",
               }}
@@ -880,7 +880,7 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2, ease: "easeInOut" }}
-                  className="absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden bg-[#0a0a0a]"
+                  className="absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden bg-[#800000]"
                 >
                   {/* Main media element — 100% full bleed edge-to-edge image without margins */}
                   <img
@@ -1154,7 +1154,7 @@ export function ReelStack({ ready = true }: ReelStackProps) {
   };
 
   return (
-    <Section theme="dark" className="relative" style={{ background: "#080808" }}>
+    <Section theme="dark" className="relative" style={{ background: "#800000" }}>
 
       <div className="mx-auto max-w-[1320px] px-6 md:px-10 lg:px-14 py-20 md:py-28">
 

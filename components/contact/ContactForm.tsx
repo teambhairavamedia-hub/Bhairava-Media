@@ -58,7 +58,7 @@ export function ContactForm() {
             type="text"
             required
             placeholder="Rajesh Waghchaware"
-            className="w-full rounded-xl border border-[#0a0a0a]/8 bg-white px-4 py-3 text-sm text-[#0a0a0a] placeholder:text-[#0a0a0a]/25 focus:outline-none focus:border-[#0a0a0a]/25 focus:ring-1 focus:ring-[#0a0a0a]/10 transition-all duration-200"
+            className="w-full rounded-xl border border-[#0a0a0a]/8 bg-white px-4 py-3 text-sm text-[#0a0a0a] placeholder:text-[#0a0a0a]/25 focus:outline-none focus:border-[#800000]/40 focus:ring-1 focus:ring-[#800000]/20 transition-all duration-200"
             style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
           />
         </label>
@@ -70,7 +70,7 @@ export function ContactForm() {
             type="email"
             required
             placeholder="rajesh@company.com"
-            className="w-full rounded-xl border border-[#0a0a0a]/8 bg-white px-4 py-3 text-sm text-[#0a0a0a] placeholder:text-[#0a0a0a]/25 focus:outline-none focus:border-[#0a0a0a]/25 focus:ring-1 focus:ring-[#0a0a0a]/10 transition-all duration-200"
+            className="w-full rounded-xl border border-[#0a0a0a]/8 bg-white px-4 py-3 text-sm text-[#0a0a0a] placeholder:text-[#0a0a0a]/25 focus:outline-none focus:border-[#800000]/40 focus:ring-1 focus:ring-[#800000]/20 transition-all duration-200"
             style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
           />
         </label>
@@ -85,7 +85,7 @@ export function ContactForm() {
           <input
             type="text"
             placeholder="Your brand or company"
-            className="w-full rounded-xl border border-[#0a0a0a]/8 bg-white px-4 py-3 text-sm text-[#0a0a0a] placeholder:text-[#0a0a0a]/25 focus:outline-none focus:border-[#0a0a0a]/25 focus:ring-1 focus:ring-[#0a0a0a]/10 transition-all duration-200"
+            className="w-full rounded-xl border border-[#0a0a0a]/8 bg-white px-4 py-3 text-sm text-[#0a0a0a] placeholder:text-[#0a0a0a]/25 focus:outline-none focus:border-[#800000]/40 focus:ring-1 focus:ring-[#800000]/20 transition-all duration-200"
             style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
           />
         </label>
@@ -96,7 +96,7 @@ export function ContactForm() {
           <input
             type="url"
             placeholder="https://yoursite.com"
-            className="w-full rounded-xl border border-[#0a0a0a]/8 bg-white px-4 py-3 text-sm text-[#0a0a0a] placeholder:text-[#0a0a0a]/25 focus:outline-none focus:border-[#0a0a0a]/25 focus:ring-1 focus:ring-[#0a0a0a]/10 transition-all duration-200"
+            className="w-full rounded-xl border border-[#0a0a0a]/8 bg-white px-4 py-3 text-sm text-[#0a0a0a] placeholder:text-[#0a0a0a]/25 focus:outline-none focus:border-[#800000]/40 focus:ring-1 focus:ring-[#800000]/20 transition-all duration-200"
             style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
           />
         </label>
@@ -110,7 +110,7 @@ export function ContactForm() {
         <div className="relative">
           <select
             required
-            className="w-full rounded-xl border border-[#0a0a0a]/8 bg-white px-4 py-3 pr-10 text-sm text-[#0a0a0a] focus:outline-none focus:border-[#0a0a0a]/25 focus:ring-1 focus:ring-[#0a0a0a]/10 transition-all duration-200 appearance-none cursor-pointer"
+            className="w-full rounded-xl border border-[#0a0a0a]/8 bg-white px-4 py-3 pr-10 text-sm text-[#0a0a0a] focus:outline-none focus:border-[#800000]/40 focus:ring-1 focus:ring-[#800000]/20 transition-all duration-200 appearance-none cursor-pointer"
             style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
             defaultValue=""
           >
@@ -138,7 +138,7 @@ export function ContactForm() {
         </span>
         <div className="relative">
           <select
-            className="w-full rounded-xl border border-[#0a0a0a]/8 bg-white px-4 py-3 pr-10 text-sm text-[#0a0a0a] focus:outline-none focus:border-[#0a0a0a]/25 focus:ring-1 focus:ring-[#0a0a0a]/10 transition-all duration-200 appearance-none cursor-pointer"
+            className="w-full rounded-xl border border-[#0a0a0a]/8 bg-white px-4 py-3 pr-10 text-sm text-[#0a0a0a] focus:outline-none focus:border-[#800000]/40 focus:ring-1 focus:ring-[#800000]/20 transition-all duration-200 appearance-none cursor-pointer"
             style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
             defaultValue=""
           >
@@ -168,7 +168,7 @@ export function ContactForm() {
           rows={5}
           required
           placeholder="What are your goals? What challenges are you facing? What does success look like for you?"
-          className="w-full rounded-xl border border-[#0a0a0a]/8 bg-white px-4 py-3 text-sm text-[#0a0a0a] placeholder:text-[#0a0a0a]/25 focus:outline-none focus:border-[#0a0a0a]/25 focus:ring-1 focus:ring-[#0a0a0a]/10 transition-all duration-200 resize-none"
+          className="w-full rounded-xl border border-[#0a0a0a]/8 bg-white px-4 py-3 text-sm text-[#0a0a0a] placeholder:text-[#0a0a0a]/25 focus:outline-none focus:border-[#800000]/40 focus:ring-1 focus:ring-[#800000]/20 transition-all duration-200 resize-none"
           style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
         />
       </label>

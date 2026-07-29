@@ -120,7 +120,7 @@ export function CaseStudyGrid() {
                 setSearchQuery(e.target.value);
                 setExpandedIndex(null);
               }}
-              className="rounded-full border border-black/10 px-4 py-2 text-xs focus:outline-none focus:border-black/30 placeholder:text-black/30 w-full sm:w-48 bg-white"
+              className="rounded-full border border-black/10 px-4 py-2 text-xs focus:outline-none focus:border-black/30 placeholder:text-black/30 text-[#0a0a0a] w-full sm:w-48 bg-white"
               style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
             />
             {searchQuery && (

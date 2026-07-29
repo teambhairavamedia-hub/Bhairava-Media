@@ -32,7 +32,7 @@ export function Footer() {
     <Section
       theme="dark"
       className="relative overflow-hidden border-t border-white/5"
-      style={{ background: "#050505" }}
+      style={{ background: "#800000" }}
     >
       <div className="mx-auto max-w-[1400px] px-6 pt-24 pb-8 md:px-10 lg:px-14">
         
