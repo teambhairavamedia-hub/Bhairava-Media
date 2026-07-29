@@ -795,8 +795,8 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
         {/* Top border */}
         <div className="h-[1px] w-full bg-[#0a0a0a]/10 mb-8" />
 
-        {/* Split Grid Layout: Left List, Right Side-by-side Interactive Preview */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        {/* Split Grid Layout: Left List pinned at top, Right Side-by-side Dynamic Preview */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
           
           {/* LEFT: Case Study Row List (spans 7 columns on desktop) */}
           <div className="lg:col-span-7 flex flex-col">
@@ -863,12 +863,16 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
           </div>
 
           {/* RIGHT: Side-by-Side Interactive Preview Panel (spans 5 columns on desktop) */}
-          <div className="hidden lg:flex lg:col-span-5 flex-col items-center justify-center gap-4">
+          <div className="hidden lg:flex lg:col-span-5 flex-col items-center justify-start gap-4">
             
-            {/* Stable Preview Frame Box with constant height — Zero Layout Shift */}
+            {/* Dynamic Aspect Ratio Preview Frame matching exact video/image size */}
             <div
               onClick={() => setSelectedProject(activeProject)}
-              className="relative w-full max-w-[420px] h-[440px] md:h-[480px] overflow-hidden rounded-[1.25rem] bg-[#0a0a0a] border border-black/10 shadow-2xl cursor-pointer group flex items-center justify-center"
+              className="relative w-full max-w-[440px] overflow-hidden rounded-[1.25rem] bg-[#0a0a0a] border border-black/10 shadow-2xl cursor-pointer group flex items-center justify-center transition-all duration-300 ease-out"
+              style={{
+                aspectRatio: (activeProject as any).aspectRatio || "16/9",
+                maxHeight: "500px",
+              }}
             >
               <AnimatePresence mode="wait">
                 <motion.div
