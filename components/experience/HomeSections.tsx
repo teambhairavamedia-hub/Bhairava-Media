@@ -891,26 +891,20 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
                     className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110 pointer-events-none"
                   />
 
-                  {/* Main media element — 100% full uncropped image fit */}
-                  {project.video ? (
-                    <video
-                      ref={(el) => {
-                        videoRefs.current[project.slug] = el;
-                      }}
-                      src={project.video}
-                      poster={project.image}
-                      muted
-                      loop
-                      playsInline
-                      preload="metadata"
-                      className="relative z-0 w-full h-full object-cover group-hover:scale-103 transition-transform duration-500 ease-out"
-                    />
-                  ) : (
-                    <img
-                      src={project.image}
-                      alt={project.client}
-                      className="relative z-0 w-full h-full object-contain p-1 group-hover:scale-102 transition-transform duration-500 ease-out"
-                    />
+                  {/* Main media element — 100% full uncropped cover image fit */}
+                  <img
+                    src={project.image}
+                    alt={project.client}
+                    className="relative z-0 w-full h-full object-contain p-1 group-hover:scale-102 transition-transform duration-500 ease-out"
+                  />
+
+                  {/* Play badge for video case studies */}
+                  {project.video && (
+                    <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+                      <div className="w-12 h-12 rounded-full bg-black/65 border border-white/25 backdrop-blur-md flex items-center justify-center group-hover:scale-110 group-hover:bg-[#d4af37] group-hover:text-black text-white transition-all duration-300 shadow-xl">
+                        <span className="text-xs ml-0.5">▶</span>
+                      </div>
+                    </div>
                   )}
 
                   {/* Vignette mask */}
