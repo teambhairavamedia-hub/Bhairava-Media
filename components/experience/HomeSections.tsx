@@ -870,7 +870,7 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
               onClick={() => setSelectedProject(activeProject)}
               className="relative w-full overflow-hidden rounded-[1.25rem] bg-[#0a0a0a] border border-black/10 shadow-2xl cursor-pointer group flex items-center justify-center"
               style={{
-                aspectRatio: "16/10",
+                aspectRatio: "16/9",
               }}
             >
               {portfolioWithRevenue.map((project) => (
@@ -890,7 +890,7 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
                     className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110"
                   />
 
-                  {/* Main media element */}
+                  {/* Main media element — dynamic object-fit per content type */}
                   {project.video ? (
                     <video
                       ref={(el) => {
@@ -908,7 +908,11 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
                     <img
                       src={project.image}
                       alt={project.client}
-                      className="relative z-0 w-full h-full object-contain p-1.5 group-hover:scale-103 transition-transform duration-500 ease-out"
+                      className={`relative z-0 w-full h-full group-hover:scale-103 transition-transform duration-500 ease-out ${
+                        project.slug === "quberx-brand-identity"
+                          ? "object-contain p-4 bg-[#0a0a0a]"
+                          : "object-cover object-center"
+                      }`}
                     />
                   )}
 
