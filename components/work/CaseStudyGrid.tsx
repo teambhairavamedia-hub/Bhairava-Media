@@ -156,11 +156,17 @@ export function CaseStudyGrid() {
         </div>
       </div>
 
-      {/* Grid Mode View */}
+      {/* Grid Mode View — Bento Grid Layout */}
       {viewMode === "grid" && (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-[380px]">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project, idx) => {
+              // Bento span logic for visual hierarchy
+              const isHeroBento = idx === 0; // First item (IDFC FIRST Bank) spans 2 cols on desktop
+              const spanClass = isHeroBento
+                ? "md:col-span-2 lg:col-span-2"
+                : "col-span-1";
+
               return (
                 <motion.div
                   layout
@@ -169,72 +175,65 @@ export function CaseStudyGrid() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.4 }}
-                  className="group relative flex flex-col bg-white border border-black/5 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer"
+                  className={`group relative flex flex-col ${spanClass} rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 cursor-pointer bg-[#0a0a0a] border border-black/10`}
                   onClick={() => setSelectedProject(project)}
                 >
-                  {/* Media container */}
-                  <div className="aspect-video w-full relative overflow-hidden bg-[#080808] border-b border-black/5 flex items-center justify-center">
-                    <img
-                      src={project.image}
-                      alt=""
-                      aria-hidden="true"
-                      className="absolute inset-0 w-full h-full object-cover blur-xl opacity-40 scale-110 pointer-events-none"
-                    />
+                  {/* Full Bleed Media Container */}
+                  <div className="w-full h-full relative overflow-hidden flex items-center justify-center">
+                    {/* Full cover image without black side bars or inner margins */}
                     <img
                       src={project.image}
                       alt={project.client}
-                      className="relative z-0 w-full h-full object-contain p-1.5 group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                     />
-                    
-                    {/* Dark gradient mask */}
-                    <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+
+                    {/* Dark gradient mask for text contrast */}
+                    <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none" />
 
                     {/* Play Video Indicator if video exists */}
                     {project.video && (
-                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <div className="w-12 h-12 rounded-full bg-black/60 border border-white/20 backdrop-blur-md flex items-center justify-center group-hover:scale-110 group-hover:bg-[#d4af37] group-hover:text-black text-white transition-all duration-300 shadow-lg">
+                      <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+                        <div className="w-12 h-12 rounded-full bg-black/65 border border-white/25 backdrop-blur-md flex items-center justify-center group-hover:scale-110 group-hover:bg-[#d4af37] group-hover:text-black text-white transition-all duration-300 shadow-xl">
                           <span className="text-xs ml-0.5">▶</span>
                         </div>
                       </div>
                     )}
 
-                    {/* Quick Metric overlay */}
-                    <div className="absolute bottom-3 left-3 rounded-full bg-black/60 border border-white/10 px-3 py-1 backdrop-blur-md">
-                      <span className="text-[9px] font-bold text-white tracking-wide">
+                    {/* Quick Metric overlay (Top-Left) */}
+                    <div className="absolute top-4 left-4 z-20 rounded-full bg-black/75 border border-white/20 px-3 py-1 backdrop-blur-md shadow-md">
+                      <span className="text-[10px] font-bold text-white tracking-wide uppercase">
                         {project.metric}
                       </span>
                     </div>
 
-                    {/* Category overlay */}
-                    <div className="absolute top-3 right-3 rounded-full bg-white/80 border border-black/5 px-2 py-0.5 backdrop-blur-md">
-                      <span className="text-[8px] font-bold text-black/60 tracking-wider uppercase">
+                    {/* Category overlay (Top-Right) */}
+                    <div className="absolute top-4 right-4 z-20 rounded-full bg-black/75 border border-white/20 px-3 py-1 backdrop-blur-md shadow-md">
+                      <span className="text-[9px] font-bold text-white tracking-wider uppercase">
                         {project.category}
                       </span>
                     </div>
-                  </div>
 
-                  {/* Text details */}
-                  <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
-                    <div>
+                    {/* Bottom Info Overlay */}
+                    <div className="absolute bottom-0 inset-x-0 z-20 p-6 flex flex-col justify-end space-y-2">
                       <h3
-                        className="text-lg font-bold text-black tracking-tight"
+                        className="text-xl md:text-2xl font-bold text-white tracking-tight group-hover:text-[#d4af37] transition-colors duration-300"
                         style={{ fontFamily: "var(--font-syne), sans-serif" }}
                       >
                         {project.client}
                       </h3>
-                      <p className="mt-2 text-xs text-black/50 leading-relaxed font-light line-clamp-2">
+                      
+                      <p className="text-xs text-white/70 leading-relaxed font-light line-clamp-2 max-w-xl">
                         {project.challenge}
                       </p>
-                    </div>
 
-                    {/* Action trigger label */}
-                    <div className="flex items-center justify-between pt-2 border-t border-black/5">
-                      <span className="text-[9px] uppercase tracking-widest text-[#d4af37] font-bold">
-                        Read Case Study
-                      </span>
-                      <span className="text-xs text-black/40 group-hover:text-black">
-                        →
-                      </span>
+                      <div className="flex items-center justify-between pt-2">
+                        <span className="text-[10px] uppercase tracking-widest text-[#d4af37] font-bold">
+                          Read Case Study
+                        </span>
+                        <span className="text-xs text-white/60 group-hover:text-white group-hover:translate-x-1 transition-all duration-300">
+                          →
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
