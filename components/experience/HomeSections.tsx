@@ -871,7 +871,6 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
               className="relative w-full max-w-[440px] overflow-hidden rounded-[1.25rem] bg-[#0a0a0a] border border-black/10 shadow-2xl cursor-pointer group flex items-center justify-center transition-all duration-300 ease-out"
               style={{
                 aspectRatio: (activeProject as any).aspectRatio || "16/9",
-                maxHeight: "500px",
               }}
             >
               <AnimatePresence mode="wait">
