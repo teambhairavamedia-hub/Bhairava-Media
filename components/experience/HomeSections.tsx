@@ -724,19 +724,46 @@ type ProjectItem = (typeof experienceConfig.portfolio)[number] & {
 
 export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [selectedProject, setSelectedProject] = useState<(typeof experienceConfig.portfolio)[number] | null>(null);
+  const [activeSlug, setActiveSlug] = useState<string>(portfolioWithRevenue[0].slug);
+  const [selectedProject, setSelectedProject] = useState<(typeof portfolioWithRevenue)[number] | null>(null);
+  const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
 
-  const portfolio = experienceConfig.portfolio;
+  /* Animate rows in on scroll */
+  useEffect(() => {
+    if (!ready) return;
+    registerGsap();
+    const section = sectionRef.current;
+    if (!section) return;
 
-  // Unified Bento Grid layout configuration — zero gaps, equal row heights
-  const bentoConfigs = [
-    { span: "lg:col-span-8", height: "h-[360px] md:h-[420px]" }, // IDFC FIRST Bank (Row 1 Left)
-    { span: "lg:col-span-4", height: "h-[360px] md:h-[420px]" }, // Quberx (Row 1 Right)
-    { span: "lg:col-span-4", height: "h-[360px] md:h-[420px]" }, // Adhyaksh (Row 2 Left)
-    { span: "lg:col-span-8", height: "h-[360px] md:h-[420px]" }, // Zat Pat Pata Pat (Row 2 Right)
-    { span: "lg:col-span-6", height: "h-[340px] md:h-[380px]" }, // Erik & Vinmayi Music '96 (Row 3 Left)
-    { span: "lg:col-span-6", height: "h-[340px] md:h-[380px]" }, // Commercial Youth (Row 3 Right)
-  ];
+    const ctx = gsap.context(() => {
+      gsap.from(".work-row", {
+        y: 30,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.08,
+        ease: "power3.out",
+        scrollTrigger: { trigger: section, start: "top 80%" },
+      });
+    }, section);
+
+    return () => ctx.revert();
+  }, [ready]);
+
+  /* Play active video, pause others */
+  useEffect(() => {
+    Object.keys(videoRefs.current).forEach((slug) => {
+      const v = videoRefs.current[slug];
+      if (!v) return;
+      if (slug === activeSlug) {
+        v.currentTime = 0;
+        void v.play().catch(() => {});
+      } else {
+        v.pause();
+      }
+    });
+  }, [activeSlug]);
+
+  const activeProject = portfolioWithRevenue.find((p) => p.slug === activeSlug) || portfolioWithRevenue[0];
 
   return (
     <Section theme="light" className="relative overflow-hidden" style={{ background: "#ffffff" }}>
@@ -759,90 +786,224 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
           </div>
           <Link
             href="/work"
-            className="hidden shrink-0 label-nav text-[#0a0a0a]/40 transition-opacity hover:opacity-100 hover:text-[#0a0a0a] md:inline-flex items-center gap-2"
+            className="hidden shrink-0 label-nav text-[#0a0a0a]/40 transition-opacity hover:opacity-100 hover:text-[#0a0a0a] md:inline-flex items-center gap-2 uppercase tracking-widest text-xs font-semibold"
           >
-            View all
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M1 6h10M6 1l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            VIEW ALL →
           </Link>
         </div>
 
-        {/* Seamless Bento Grid with Zero Gaps */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 md:gap-8">
-          {portfolio.map((project, idx) => {
-            const config = bentoConfigs[idx] || { span: "lg:col-span-6", height: "h-[360px] md:h-[400px]" };
-            return (
-              <motion.div
-                key={project.slug}
-                initial={{ opacity: 0, y: 25 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.08 }}
-                onClick={() => setSelectedProject(project)}
-                className={`group relative overflow-hidden rounded-3xl bg-[#0a0a0a] border border-black/10 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer flex flex-col justify-between ${config.span} ${config.height}`}
-              >
-                {/* Media Container with ambient backdrop & zero cropping */}
-                <div className="absolute inset-0 w-full h-full bg-[#080808] overflow-hidden flex items-center justify-center">
-                  {/* Ambient blurred backdrop so grid card is 100% filled without stark borders */}
+        {/* Top border */}
+        <div className="h-[1px] w-full bg-[#0a0a0a]/10 mb-8" />
+
+        {/* Split Grid Layout: Left List, Right Side-by-side Interactive Preview */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          
+          {/* LEFT: Case Study Row List (spans 7 columns on desktop) */}
+          <div className="lg:col-span-7 flex flex-col">
+            {portfolioWithRevenue.map((project, index) => {
+              const isActive = project.slug === activeSlug;
+              return (
+                <div key={project.slug} className="work-row">
+                  <div
+                    onClick={() => {
+                      setActiveSlug(project.slug);
+                      setSelectedProject(project);
+                    }}
+                    onMouseEnter={() => setActiveSlug(project.slug)}
+                    className="group relative flex w-full items-center justify-between gap-6 border-b border-[#e8e8e6] py-5 md:py-6 transition-all duration-300 hover:border-[#0a0a0a]/20 cursor-pointer"
+                    style={{
+                      opacity: isActive ? 1 : 0.45,
+                      transition: "opacity 0.3s ease",
+                    }}
+                  >
+                    {/* Index + Client Name */}
+                    <div className="flex items-center gap-6 md:gap-8 min-w-0">
+                      <span
+                        className="w-8 shrink-0 text-[0.75rem] font-medium tabular-nums text-[#0a0a0a]/35 transition-colors duration-300 group-hover:text-[#0a0a0a]"
+                        style={{ fontVariantNumeric: "tabular-nums" }}
+                      >
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+
+                      <h3
+                        className="truncate text-[clamp(1.25rem,2.2vw,2rem)] font-bold leading-none tracking-[-0.03em] text-[#0a0a0a] transition-all duration-300 group-hover:text-black"
+                        style={{ fontFamily: "var(--font-syne), sans-serif" }}
+                      >
+                        {project.client}
+                      </h3>
+                    </div>
+
+                    {/* Right side category badge and arrow */}
+                    <div className="flex items-center gap-4">
+                      {/* Category Pill */}
+                      <span className="hidden sm:inline-block text-[10px] font-bold uppercase tracking-widest text-[#0a0a0a]/40 group-hover:text-[#0a0a0a]/70 transition-colors duration-300">
+                        {project.category}
+                      </span>
+                      
+                      {/* Interactive Arrow Button */}
+                      <span
+                        className={`flex h-8 w-8 items-center justify-center rounded-full border border-[#0a0a0a]/10 transition-all duration-300 ${
+                          isActive
+                            ? "opacity-100 translate-x-0 border-[#0a0a0a]/30 bg-black text-white"
+                            : "opacity-0 translate-x-[-6px] group-hover:opacity-100 group-hover:translate-x-0 group-hover:border-[#0a0a0a]/20"
+                        }`}
+                      >
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                          <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </span>
+                    </div>
+
+                    {/* Bottom hover indicator line */}
+                    <span className="pointer-events-none absolute bottom-[-1px] left-0 h-[1px] w-0 bg-[#0a0a0a] transition-all duration-300 group-hover:w-full" />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* RIGHT: Side-by-Side Interactive Preview Panel (spans 5 columns on desktop) */}
+          <div className="hidden lg:flex lg:col-span-5 flex-col items-center justify-center gap-4">
+            
+            {/* Aspect 16:10 Preview Frame with uncropped image container */}
+            <div
+              onClick={() => setSelectedProject(activeProject)}
+              className="relative w-full overflow-hidden rounded-[1.25rem] bg-[#0a0a0a] border border-black/10 shadow-2xl cursor-pointer group flex items-center justify-center"
+              style={{
+                aspectRatio: "16/10",
+              }}
+            >
+              {portfolioWithRevenue.map((project) => (
+                <div
+                  key={project.slug}
+                  className="absolute inset-0 w-full h-full transition-opacity duration-500 ease-out flex items-center justify-center overflow-hidden"
+                  style={{
+                    opacity: project.slug === activeSlug ? 1 : 0,
+                    pointerEvents: project.slug === activeSlug ? "auto" : "none",
+                  }}
+                >
+                  {/* Ambient background blur */}
                   <img
                     src={project.image}
                     alt=""
                     aria-hidden="true"
-                    className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-45 scale-110 pointer-events-none"
+                    className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110"
                   />
 
-                  {/* Full uncropped image fitted inside card */}
-                  <img
-                    src={project.image}
-                    alt={project.client}
-                    className="relative z-0 w-full h-full object-contain p-2 md:p-3 group-hover:scale-103 transition-transform duration-500 ease-out"
-                  />
+                  {/* Main media element */}
+                  {project.video ? (
+                    <video
+                      ref={(el) => {
+                        videoRefs.current[project.slug] = el;
+                      }}
+                      src={project.video}
+                      poster={project.image}
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                      className="relative z-0 w-full h-full object-cover group-hover:scale-103 transition-transform duration-500 ease-out"
+                    />
+                  ) : (
+                    <img
+                      src={project.image}
+                      alt={project.client}
+                      className="relative z-0 w-full h-full object-contain p-1.5 group-hover:scale-103 transition-transform duration-500 ease-out"
+                    />
+                  )}
 
-                  {/* Vignette overlay for clear typography contrast */}
-                  <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/90 via-black/35 to-black/10 pointer-events-none" />
+                  {/* Vignette mask */}
+                  <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
                 </div>
+              ))}
 
-                {/* Top Overlay Badges */}
-                <div className="relative z-10 p-6 md:p-8 flex items-center justify-between w-full">
-                  <span className="rounded-full bg-black/60 border border-white/15 px-3.5 py-1 text-[9px] font-bold text-white uppercase tracking-widest backdrop-blur-md">
-                    {project.category}
-                  </span>
-                  <span className="rounded-full bg-white/95 text-black px-3.5 py-1 text-[9px] font-bold tracking-wide shadow-md">
-                    {project.metric}
-                  </span>
-                </div>
+              {/* Top-Left Live Preview Badge */}
+              <div
+                className="absolute top-4 left-4 flex items-center gap-1.5 rounded-full px-3 py-1 z-20"
+                style={{
+                  background: "rgba(0,0,0,0.65)",
+                  border: "1px solid rgba(255,255,255,0.18)",
+                  backdropFilter: "blur(8px)",
+                }}
+              >
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white" />
+                </span>
+                <span
+                  style={{
+                    fontFamily: "var(--font-dm-sans), sans-serif",
+                    fontSize: "0.55rem",
+                    letterSpacing: "0.22em",
+                    textTransform: "uppercase",
+                    color: "rgba(255,255,255,0.9)",
+                    fontWeight: 600,
+                  }}
+                >
+                  PREVIEW
+                </span>
+              </div>
 
-                {/* Play Button Indicator for Video Case Studies */}
-                {project.video && (
-                  <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-                    <div className="w-14 h-14 rounded-full bg-black/60 border border-white/20 backdrop-blur-md flex items-center justify-center group-hover:scale-110 group-hover:bg-[#d4af37] group-hover:text-black text-white transition-all duration-300 shadow-2xl">
-                      <span className="text-sm ml-0.5">▶</span>
-                    </div>
-                  </div>
-                )}
+              {/* Top-Right Metric Badge */}
+              <div
+                className="absolute top-4 right-4 rounded-full px-3 py-1 z-20"
+                style={{
+                  background: "rgba(0,0,0,0.65)",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  backdropFilter: "blur(8px)",
+                  fontFamily: "var(--font-dm-sans), sans-serif",
+                  fontSize: "0.6rem",
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.85)",
+                  fontWeight: 600,
+                }}
+              >
+                {activeProject.metric}
+              </div>
+            </div>
 
-                {/* Bottom Content Info */}
-                <div className="relative z-10 p-6 md:p-8 text-white space-y-2">
-                  <span className="text-[10px] uppercase font-bold text-[#d4af37] tracking-widest">
-                    0{idx + 1} — Case Study
-                  </span>
-                  <h3
-                    className="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-white group-hover:text-[#d4af37] transition-colors duration-300"
-                    style={{ fontFamily: "var(--font-syne), sans-serif" }}
-                  >
-                    {project.client}
-                  </h3>
-                  <p className="text-xs text-white/70 line-clamp-2 font-light max-w-lg">
-                    {project.challenge}
-                  </p>
-                </div>
-              </motion.div>
-            );
-          })}
+            {/* Project Metadata Under the Preview Card */}
+            <div className="w-full px-1 flex justify-between items-start">
+              <div>
+                <p className="text-[10px] uppercase font-bold text-[#0a0a0a]/40 tracking-widest">
+                  {activeProject.category}
+                </p>
+                <p
+                  className="mt-1 text-sm font-semibold tracking-[-0.02em] text-[#0a0a0a]"
+                  style={{ fontFamily: "var(--font-syne), sans-serif" }}
+                >
+                  {activeProject.client}
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="text-[10px] uppercase font-bold text-[#0a0a0a]/40 tracking-widest">
+                  Revenue Impact
+                </p>
+                <p
+                  className="mt-1 text-sm font-bold tracking-[-0.02em] text-[#0a0a0a]"
+                  style={{ fontFamily: "var(--font-syne), sans-serif" }}
+                >
+                  {activeProject.revenue}
+                </p>
+              </div>
+            </div>
+
+          </div>
+
         </div>
 
-        {/* Showcase Modal for Bento Grid Cards */}
+        {/* Mobile: View all link */}
+        <div className="mt-10 flex justify-center md:hidden">
+          <Link
+            href="/work"
+            className="label-nav text-[#0a0a0a]/50 border-b border-[#0a0a0a]/15 pb-1 transition-colors hover:text-[#0a0a0a] hover:border-[#0a0a0a]"
+          >
+            View all projects →
+          </Link>
+        </div>
+
+        {/* Showcase Detail Modal */}
         <AnimatePresence>
           {selectedProject && (
             <motion.div
