@@ -932,16 +932,17 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
 
               {/* Top-Right Metric Badge */}
               <div
-                className="absolute top-4 right-4 rounded-full px-3 py-1 z-20"
+                className="absolute top-4 right-4 rounded-full px-3 py-1 z-20 text-white shadow-lg"
                 style={{
-                  background: "rgba(0,0,0,0.65)",
-                  border: "1px solid rgba(255,255,255,0.15)",
+                  background: "rgba(0,0,0,0.75)",
+                  border: "1px solid rgba(255,255,255,0.25)",
                   backdropFilter: "blur(8px)",
                   fontFamily: "var(--font-dm-sans), sans-serif",
                   fontSize: "0.6rem",
                   letterSpacing: "0.14em",
                   textTransform: "uppercase",
-                  fontWeight: 600,
+                  color: "#ffffff",
+                  fontWeight: 700,
                 }}
               >
                 {activeProject.metric}
