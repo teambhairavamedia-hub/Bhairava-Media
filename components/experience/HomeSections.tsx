@@ -868,22 +868,30 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
             {/* Dynamic Aspect Ratio Preview Frame matching exact item resolution */}
             <div
               onClick={() => setSelectedProject(activeProject)}
-              className="relative w-full max-w-[440px] overflow-hidden rounded-[1.25rem] bg-[#0a0a0a] border border-black/10 shadow-2xl cursor-pointer group flex items-center justify-center transition-all duration-500 ease-out"
+              className="relative w-full max-w-[420px] overflow-hidden rounded-[1.25rem] bg-[#0a0a0a] border border-black/10 shadow-2xl cursor-pointer group flex items-center justify-center transition-all duration-500 ease-out"
               style={{
                 aspectRatio: (activeProject as any).aspectRatio || "16/9",
-                maxHeight: "440px",
+                maxHeight: "500px",
               }}
             >
               {portfolioWithRevenue.map((project) => (
                 <div
                   key={project.slug}
-                  className="absolute inset-0 w-full h-full transition-opacity duration-500 ease-out flex items-center justify-center overflow-hidden"
+                  className="absolute inset-0 w-full h-full transition-opacity duration-500 ease-out flex items-center justify-center overflow-hidden bg-[#0a0a0a]"
                   style={{
                     opacity: project.slug === activeSlug ? 1 : 0,
                     pointerEvents: project.slug === activeSlug ? "auto" : "none",
                   }}
                 >
-                  {/* Main media element — 100% full cover matching item's native resolution */}
+                  {/* Ambient background blur so container edges blend seamlessly */}
+                  <img
+                    src={project.image}
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110 pointer-events-none"
+                  />
+
+                  {/* Main media element — 100% full uncropped image fit */}
                   {project.video ? (
                     <video
                       ref={(el) => {
@@ -895,13 +903,13 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
                       loop
                       playsInline
                       preload="metadata"
-                      className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500 ease-out"
+                      className="relative z-0 w-full h-full object-cover group-hover:scale-103 transition-transform duration-500 ease-out"
                     />
                   ) : (
                     <img
                       src={project.image}
                       alt={project.client}
-                      className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500 ease-out"
+                      className="relative z-0 w-full h-full object-contain p-1 group-hover:scale-102 transition-transform duration-500 ease-out"
                     />
                   )}
 
