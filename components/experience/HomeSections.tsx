@@ -865,12 +865,13 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
           {/* RIGHT: Side-by-Side Interactive Preview Panel (spans 5 columns on desktop) */}
           <div className="hidden lg:flex lg:col-span-5 flex-col items-center justify-center gap-4">
             
-            {/* Aspect 16:10 Preview Frame with uncropped image container */}
+            {/* Dynamic Aspect Ratio Preview Frame matching exact item resolution */}
             <div
               onClick={() => setSelectedProject(activeProject)}
-              className="relative w-full overflow-hidden rounded-[1.25rem] bg-[#0a0a0a] border border-black/10 shadow-2xl cursor-pointer group flex items-center justify-center"
+              className="relative w-full max-w-[440px] overflow-hidden rounded-[1.25rem] bg-[#0a0a0a] border border-black/10 shadow-2xl cursor-pointer group flex items-center justify-center transition-all duration-500 ease-out"
               style={{
-                aspectRatio: "16/9",
+                aspectRatio: (activeProject as any).aspectRatio || "16/9",
+                maxHeight: "440px",
               }}
             >
               {portfolioWithRevenue.map((project) => (
@@ -882,15 +883,7 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
                     pointerEvents: project.slug === activeSlug ? "auto" : "none",
                   }}
                 >
-                  {/* Ambient background blur */}
-                  <img
-                    src={project.image}
-                    alt=""
-                    aria-hidden="true"
-                    className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110"
-                  />
-
-                  {/* Main media element — dynamic object-fit per content type */}
+                  {/* Main media element — 100% full cover matching item's native resolution */}
                   {project.video ? (
                     <video
                       ref={(el) => {
@@ -902,17 +895,13 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
                       loop
                       playsInline
                       preload="metadata"
-                      className="relative z-0 w-full h-full object-cover group-hover:scale-103 transition-transform duration-500 ease-out"
+                      className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500 ease-out"
                     />
                   ) : (
                     <img
                       src={project.image}
                       alt={project.client}
-                      className={`relative z-0 w-full h-full group-hover:scale-103 transition-transform duration-500 ease-out ${
-                        project.slug === "quberx-brand-identity"
-                          ? "object-contain p-4 bg-[#0a0a0a]"
-                          : "object-cover object-center"
-                      }`}
+                      className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500 ease-out"
                     />
                   )}
 

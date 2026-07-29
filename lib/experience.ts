@@ -37,6 +37,7 @@ export const experienceConfig = {
       image: "/media/idfc/cover.jpg",
       video: "/media/idfc/video.mp4",
       mediaType: "video" as const,
+      aspectRatio: "16/9",
     },
     {
       slug: "quberx-brand-identity",
@@ -50,6 +51,7 @@ export const experienceConfig = {
       detailImage: "/media/quberx/detail1.jpeg",
       additionalImages: ["/media/quberx/detail1.jpeg", "/media/quberx/detail2.jpeg"],
       mediaType: "image" as const,
+      aspectRatio: "1/1",
     },
     {
       slug: "adhyaksh-film-shoot",
@@ -62,6 +64,7 @@ export const experienceConfig = {
       image: "/media/song_1/cover.webp",
       detailImage: "/media/song_1/cover.webp",
       mediaType: "image" as const,
+      aspectRatio: "3/4",
     },
     {
       slug: "danny-pandit-brahmaa",
@@ -74,6 +77,7 @@ export const experienceConfig = {
       image: "/media/song_2/cover.jpeg",
       detailImage: "/media/song_2/cover.jpeg",
       mediaType: "image" as const,
+      aspectRatio: "3/4",
     },
     {
       slug: "erik-vinmayi-96",
@@ -86,6 +90,7 @@ export const experienceConfig = {
       image: "/media/song_3/cover.jpeg",
       detailImage: "/media/song_3/cover.jpeg",
       mediaType: "image" as const,
+      aspectRatio: "4/5",
     },
     {
       slug: "commercial-adshoot-series",
@@ -98,6 +103,7 @@ export const experienceConfig = {
       image: "/media/song_4/cover.jpeg",
       detailImage: "/media/song_4/cover.jpeg",
       mediaType: "image" as const,
+      aspectRatio: "4/5",
     },
   ],
   reels: [
