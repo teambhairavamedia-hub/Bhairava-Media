@@ -883,19 +883,11 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
                   transition={{ duration: 0.2, ease: "easeInOut" }}
                   className="absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden bg-[#0a0a0a]"
                 >
-                  {/* Ambient background blur so container edges blend seamlessly */}
-                  <img
-                    src={activeProject.image}
-                    alt=""
-                    aria-hidden="true"
-                    className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110 pointer-events-none"
-                  />
-
-                  {/* Main media element — 100% full uncropped cover image fit */}
+                  {/* Main media element — 100% full bleed edge-to-edge image without margins */}
                   <img
                     src={activeProject.image}
                     alt={activeProject.client}
-                    className="relative z-0 w-full h-full object-contain p-1 group-hover:scale-102 transition-transform duration-500 ease-out"
+                    className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500 ease-out"
                   />
 
                   {/* Play badge for video case studies */}
