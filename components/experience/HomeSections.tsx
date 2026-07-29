@@ -865,15 +865,10 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
           {/* RIGHT: Side-by-Side Interactive Preview Panel (spans 5 columns on desktop) */}
           <div className="hidden lg:flex lg:col-span-5 flex-col items-center justify-center gap-4">
             
-            {/* Dynamic Aspect Ratio Preview Frame with AnimatePresence to prevent crossfade ghosting */}
-            <motion.div
-              layout
+            {/* Stable Preview Frame Box with constant height — Zero Layout Shift */}
+            <div
               onClick={() => setSelectedProject(activeProject)}
-              className="relative w-full max-w-[420px] overflow-hidden rounded-[1.25rem] bg-[#0a0a0a] border border-black/10 shadow-2xl cursor-pointer group flex items-center justify-center transition-all duration-300 ease-out"
-              style={{
-                aspectRatio: (activeProject as any).aspectRatio || "16/9",
-                maxHeight: "500px",
-              }}
+              className="relative w-full max-w-[420px] h-[440px] md:h-[480px] overflow-hidden rounded-[1.25rem] bg-[#0a0a0a] border border-black/10 shadow-2xl cursor-pointer group flex items-center justify-center"
             >
               <AnimatePresence mode="wait">
                 <motion.div
@@ -951,13 +946,12 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
                   fontSize: "0.6rem",
                   letterSpacing: "0.14em",
                   textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.85)",
                   fontWeight: 600,
                 }}
               >
                 {activeProject.metric}
               </div>
-            </motion.div>
+            </div>
 
             {/* Project Metadata Under the Preview Card */}
             <div className="w-full px-1 flex justify-between items-start">
