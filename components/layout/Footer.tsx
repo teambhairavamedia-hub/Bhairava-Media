@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/lib/site";
 import { Section } from "@/components/ui/Section";
@@ -69,12 +70,21 @@ export function Footer() {
           
           {/* Col 1: Brand details */}
           <div className="col-span-2 md:col-span-1 max-w-xs">
-            <p
-              className="text-[0.8125rem] font-bold uppercase tracking-[0.22em] text-white"
-              style={{ fontFamily: "var(--font-syne), sans-serif" }}
-            >
-              {siteConfig.name}
-            </p>
+            <div className="flex items-center gap-2.5 mb-1">
+              <Image
+                src="/favicon.svg"
+                alt="Bhairava Media Logo"
+                width={28}
+                height={28}
+                className="w-7 h-7 object-contain rounded-full shadow-sm"
+              />
+              <p
+                className="text-[0.8125rem] font-bold uppercase tracking-[0.22em] text-white"
+                style={{ fontFamily: "var(--font-syne), sans-serif" }}
+              >
+                {siteConfig.name}
+              </p>
+            </div>
             <p className="mt-4 text-[0.8125rem] leading-[1.7] text-white/40 font-light">
               Cinematic creative and performance growth engine for scaling brands.
             </p>

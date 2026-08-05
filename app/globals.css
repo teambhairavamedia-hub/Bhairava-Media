@@ -120,8 +120,8 @@ h1, h2, h3, h4, h5, h6, .font-display {
   --theme-fg-faint: rgba(10, 10, 10, 0.24);
   --theme-border: #e8e8e6;
   --theme-card: #ffffff;
-  --theme-accent: #0a0a0a;
-  --theme-btn-primary-bg: #0a0a0a;
+  --theme-accent: #800000;
+  --theme-btn-primary-bg: #800000;
   --theme-btn-primary-fg: #ffffff;
   --theme-btn-ghost-border: rgba(128, 0, 0, 0.10);
   --theme-btn-ghost-bg: rgba(128, 0, 0, 0.03);

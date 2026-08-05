@@ -80,17 +80,15 @@ export function CinematicHero({ ready = true }: CinematicHeroProps) {
           paddingBottom: "clamp(2rem, 4vh, 3.5rem)",
         }}
       >
-        {/* Subtle background texture + orbs */}
+        {/* Subtle background texture + soft maroon ambient orbs */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="theme-noise absolute inset-0" />
-          <div className="absolute left-[-8%] top-[10%] h-[600px] w-[600px] rounded-full bg-[#e0e7ff] blur-[160px] opacity-50" />
-          <div className="absolute right-[-5%] bottom-[5%] h-[500px] w-[500px] rounded-full bg-[#fce7f3] blur-[160px] opacity-40" />
+          <div className="theme-noise absolute inset-0 opacity-30" />
+          <div className="absolute left-[-8%] top-[10%] h-[600px] w-[600px] rounded-full bg-[#800000]/8 blur-[160px]" />
+          <div className="absolute right-[-5%] bottom-[5%] h-[500px] w-[500px] rounded-full bg-[#800000]/5 blur-[160px]" />
         </div>
 
         {/* Main content */}
         <div className="hero-parallax-content relative z-10 flex flex-col items-center text-center w-full max-w-[1060px] mx-auto px-6 md:px-12">
-
-         
 
           {/* Heading */}
           <h1
@@ -109,7 +107,7 @@ export function CinematicHero({ ready = true }: CinematicHeroProps) {
             <span className="hero-line block overflow-hidden">
               <span
                 className="block font-light"
-                style={{ fontStyle: "italic", color: "rgba(10,10,10,0.26)", opacity: 0, transform: "translateY(50px)", willChange: "transform, opacity" }}
+                style={{ fontStyle: "italic", color: "#800000", opacity: 0, transform: "translateY(50px)", willChange: "transform, opacity" }}
               >
                 revenue.
               </span>
@@ -123,8 +121,8 @@ export function CinematicHero({ ready = true }: CinematicHeroProps) {
               maxWidth: "34rem",
               fontSize: "clamp(0.8rem, 1.2vw, 0.9375rem)",
               lineHeight: 1.65,
-              color: "rgba(10,10,10,0.46)",
-              fontWeight: 300,
+              color: "rgba(10,10,10,0.55)",
+              fontWeight: 400,
               letterSpacing: "-0.01em",
               fontFamily: "var(--font-dm-sans), sans-serif",
               opacity: 0,
@@ -141,7 +139,7 @@ export function CinematicHero({ ready = true }: CinematicHeroProps) {
           <div className="hero-subtitle mt-5 md:mt-6 flex flex-wrap items-center justify-center gap-3" style={{ opacity: 0, transform: "translateY(50px)", willChange: "transform, opacity" }}>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 rounded-full transition-all duration-300 group"
+              className="inline-flex items-center gap-2 rounded-full transition-all duration-300 group shadow-md hover:shadow-xl hover:scale-[1.02]"
               style={{
                 fontFamily: "var(--font-dm-sans), sans-serif",
                 fontSize: "0.6875rem",
@@ -149,10 +147,10 @@ export function CinematicHero({ ready = true }: CinematicHeroProps) {
                 letterSpacing: "0.16em",
                 textTransform: "uppercase",
                 color: "#ffffff",
-                background: "#0a0a0a",
+                background: "#800000",
                 padding: "0.75rem 1.75rem",
               }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = "0.82"; }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = "0.9"; }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = "1"; }}
             >
               Start a Project
@@ -166,21 +164,21 @@ export function CinematicHero({ ready = true }: CinematicHeroProps) {
               style={{
                 fontFamily: "var(--font-dm-sans), sans-serif",
                 fontSize: "0.6875rem",
-                fontWeight: 500,
+                fontWeight: 600,
                 letterSpacing: "0.16em",
                 textTransform: "uppercase",
-                color: "rgba(10,10,10,0.65)",
-                border: "1px solid rgba(10,10,10,0.12)",
+                color: "#800000",
+                border: "1px solid rgba(128,0,0,0.25)",
                 padding: "0.75rem 1.75rem",
                 background: "transparent",
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.background = "rgba(10,10,10,0.04)";
-                (e.currentTarget as HTMLAnchorElement).style.color = "#0a0a0a";
+                (e.currentTarget as HTMLAnchorElement).style.background = "rgba(128,0,0,0.06)";
+                (e.currentTarget as HTMLAnchorElement).style.borderColor = "#800000";
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLAnchorElement).style.background = "transparent";
-                (e.currentTarget as HTMLAnchorElement).style.color = "rgba(10,10,10,0.65)";
+                (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(128,0,0,0.25)";
               }}
             >
               View Our Work
@@ -190,7 +188,7 @@ export function CinematicHero({ ready = true }: CinematicHeroProps) {
           {/* Social proof stats */}
           <div
             className="hero-scroll-cue mt-6 md:mt-7 flex flex-wrap items-center justify-center gap-8 md:gap-14"
-            style={{ borderTop: "1px solid rgba(10,10,10,0.07)", paddingTop: "1rem", opacity: 0, transform: "translateY(50px)", willChange: "transform, opacity" }}
+            style={{ borderTop: "1px solid rgba(128,0,0,0.12)", paddingTop: "1rem", opacity: 0, transform: "translateY(50px)", willChange: "transform, opacity" }}
           >
             {[
               { value: "120M+", label: "Views Generated" },
@@ -204,7 +202,7 @@ export function CinematicHero({ ready = true }: CinematicHeroProps) {
                     fontSize: "clamp(1.25rem, 2.2vw, 1.6rem)",
                     fontWeight: 700,
                     letterSpacing: "-0.04em",
-                    color: "#0a0a0a",
+                    color: "#800000",
                     lineHeight: 1,
                   }}
                 >
@@ -216,8 +214,8 @@ export function CinematicHero({ ready = true }: CinematicHeroProps) {
                     fontSize: "0.5625rem",
                     letterSpacing: "0.2em",
                     textTransform: "uppercase",
-                    color: "rgba(10,10,10,0.38)",
-                    fontWeight: 500,
+                    color: "rgba(128,0,0,0.60)",
+                    fontWeight: 600,
                     marginTop: "0.2rem",
                   }}
                 >
@@ -236,8 +234,8 @@ export function CinematicHero({ ready = true }: CinematicHeroProps) {
               fontSize: "0.5rem",
               letterSpacing: "0.28em",
               textTransform: "uppercase",
-              color: "rgba(10,10,10,0.25)",
-              fontWeight: 500,
+              color: "rgba(128,0,0,0.50)",
+              fontWeight: 600,
             }}
           >
             Scroll
@@ -249,8 +247,8 @@ export function CinematicHero({ ready = true }: CinematicHeroProps) {
             <svg width="12" height="20" viewBox="0 0 12 20" fill="none">
               <path
                 d="M6 0V18M6 18L1 13M6 18L11 13"
-                stroke="#0a0a0a"
-                strokeOpacity="0.25"
+                stroke="#800000"
+                strokeOpacity="0.6"
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"

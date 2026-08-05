@@ -175,11 +175,23 @@ export function LandingCascade({ onComplete, onRevealStart }: LandingCascadeProp
       <div className="theme-noise pointer-events-none absolute inset-0" />
 
       <div className="relative z-10 max-w-3xl px-6 select-none">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-4 flex items-center justify-center gap-3"
+        >
+          <img
+            src="/favicon.svg"
+            alt="Bhairava Media Logo"
+            className="w-10 h-10 object-contain shadow-md rounded-full"
+          />
+        </motion.div>
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-4 text-[9px] sm:text-[10px] uppercase tracking-[0.28em] sm:tracking-[0.4em] text-[#0a0a0a]/40"
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
+          className="mb-3 text-[9px] sm:text-[10px] uppercase tracking-[0.28em] sm:tracking-[0.4em] text-[#0a0a0a]/40 font-medium"
         >
           Digital Growth Studio
         </motion.p>

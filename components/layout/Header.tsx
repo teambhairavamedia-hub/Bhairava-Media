@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/lib/site";
@@ -83,20 +84,30 @@ export function Header() {
                 : "none",
             }}
           >
-            {/* Wordmark */}
+            {/* Wordmark + Icon Logo */}
             <Link
               href="/"
-              className="shrink-0 transition-opacity hover:opacity-60"
-              style={{
-                fontFamily: "var(--font-syne), sans-serif",
-                fontSize: "0.75rem",
-                fontWeight: 700,
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                color: fgColor,
-              }}
+              className="shrink-0 flex items-center gap-2.5 transition-opacity hover:opacity-75 group"
             >
-              {siteConfig.name}
+              <Image
+                src="/favicon.svg"
+                alt="Bhairava Media Logo"
+                width={26}
+                height={26}
+                className="w-6 h-6 object-contain rounded-full shadow-sm group-hover:scale-105 transition-transform duration-300"
+              />
+              <span
+                style={{
+                  fontFamily: "var(--font-syne), sans-serif",
+                  fontSize: "0.75rem",
+                  fontWeight: 700,
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  color: fgColor,
+                }}
+              >
+                {siteConfig.name}
+              </span>
             </Link>
 
             {/* Desktop nav — center */}
@@ -146,7 +157,7 @@ export function Header() {
                   letterSpacing: "0.18em",
                   textTransform: "uppercase",
                   color: "#ffffff",
-                  background: "#0a0a0a",
+                  background: "#800000",
                   padding: "0.55rem 1.25rem",
                 }}
                 onMouseEnter={(e) => {
@@ -251,7 +262,7 @@ export function Header() {
                     letterSpacing: "0.18em",
                     textTransform: "uppercase",
                     color: "#ffffff",
-                    background: "#0a0a0a",
+                    background: "#800000",
                   }}
                 >
                   {siteConfig.cta.label}
