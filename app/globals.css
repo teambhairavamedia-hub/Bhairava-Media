@@ -95,17 +95,17 @@ h1, h2, h3, h4, h5, h6, .font-display {
 .section-dark {
   --theme-bg: #800000;
   --theme-bg-subtle: #660000;
-  --theme-fg: #f7f7f6;
-  --theme-fg-muted: rgba(247, 247, 246, 0.55);
-  --theme-fg-subtle: rgba(247, 247, 246, 0.38);
-  --theme-fg-faint: rgba(247, 247, 246, 0.22);
-  --theme-border: rgba(255, 255, 255, 0.08);
-  --theme-card: rgba(255, 255, 255, 0.04);
-  --theme-accent: #f7f7f6;
+  --theme-fg: #ffffff;
+  --theme-fg-muted: rgba(255, 255, 255, 0.88);
+  --theme-fg-subtle: rgba(255, 255, 255, 0.78);
+  --theme-fg-faint: rgba(255, 255, 255, 0.65);
+  --theme-border: rgba(255, 255, 255, 0.18);
+  --theme-card: rgba(255, 255, 255, 0.08);
+  --theme-accent: #ffffff;
   --theme-btn-primary-bg: #0a0a0a;
   --theme-btn-primary-fg: #ffffff;
-  --theme-btn-ghost-border: rgba(255, 255, 255, 0.12);
-  --theme-btn-ghost-bg: rgba(255, 255, 255, 0.04);
+  --theme-btn-ghost-border: rgba(255, 255, 255, 0.30);
+  --theme-btn-ghost-bg: rgba(255, 255, 255, 0.10);
   --theme-fade-from: #800000;
   background: var(--theme-bg);
   color: var(--theme-fg);

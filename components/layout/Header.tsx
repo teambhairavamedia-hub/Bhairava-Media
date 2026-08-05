@@ -87,14 +87,14 @@ export function Header() {
             {/* Wordmark + Icon Logo */}
             <Link
               href="/"
-              className="shrink-0 flex items-center gap-2.5 transition-opacity hover:opacity-75 group"
+              className="shrink-0 flex items-center gap-3 transition-opacity hover:opacity-75 group"
             >
               <Image
                 src="/favicon.svg"
                 alt="Bhairava Media Logo"
-                width={26}
-                height={26}
-                className="w-6 h-6 object-contain rounded-full shadow-sm group-hover:scale-105 transition-transform duration-300"
+                width={40}
+                height={40}
+                className="w-9 h-9 md:w-10 md:h-10 object-contain rounded-full shadow-md group-hover:scale-105 transition-transform duration-300"
               />
               <span
                 style={{

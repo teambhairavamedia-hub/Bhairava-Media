@@ -70,34 +70,34 @@ export function Footer() {
           
           {/* Col 1: Brand details */}
           <div className="col-span-2 md:col-span-1 max-w-xs">
-            <div className="flex items-center gap-2.5 mb-1">
+            <div className="flex items-center gap-3 mb-1">
               <Image
                 src="/favicon.svg"
                 alt="Bhairava Media Logo"
-                width={28}
-                height={28}
-                className="w-7 h-7 object-contain rounded-full shadow-sm"
+                width={44}
+                height={44}
+                className="w-10 h-10 md:w-11 md:h-11 object-contain rounded-full shadow-md"
               />
               <p
-                className="text-[0.8125rem] font-bold uppercase tracking-[0.22em] text-white"
+                className="text-[0.875rem] font-bold uppercase tracking-[0.22em] text-white"
                 style={{ fontFamily: "var(--font-syne), sans-serif" }}
               >
                 {siteConfig.name}
               </p>
             </div>
-            <p className="mt-4 text-[0.8125rem] leading-[1.7] text-white/40 font-light">
+            <p className="mt-4 text-[0.8125rem] leading-[1.7] text-white/80 font-normal">
               Cinematic creative and performance growth engine for scaling brands.
             </p>
           </div>
 
           {/* Col 2: Navigation Menu */}
           <div className="flex flex-col gap-3">
-            <p className="label-eyebrow text-white/20 mb-2">Navigation</p>
+            <p className="label-eyebrow text-white/60 mb-2 font-semibold">Navigation</p>
             {siteConfig.nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-[0.8125rem] font-medium text-white/50 transition-colors hover:text-white"
+                className="text-[0.8125rem] font-medium text-white/80 transition-colors hover:text-white"
                 style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
               >
                 {item.label}
@@ -107,7 +107,7 @@ export function Footer() {
 
           {/* Col 3: Social/Connect */}
           <div className="flex flex-col gap-3">
-            <p className="label-eyebrow text-white/20 mb-2">Connect</p>
+            <p className="label-eyebrow text-white/60 mb-2 font-semibold">Connect</p>
             <a
               href={`mailto:${siteConfig.email ?? "hello@bhairavamedia.com"}`}
               className="text-[0.8125rem] font-medium text-white/50 transition-colors hover:text-white"

@@ -276,15 +276,15 @@ export function AboutSnap() {
     <section style={{ background: "#800000", position: "relative", overflow: "hidden" }}>
       {/* Subtle glow */}
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: "-10%", left: "-5%", width: 500, height: 500, borderRadius: "50%", background: "rgba(255,255,255,0.018)", filter: "blur(80px)" }} />
-        <div style={{ position: "absolute", bottom: "-10%", right: "-5%", width: 600, height: 600, borderRadius: "50%", background: "rgba(255,255,255,0.012)", filter: "blur(100px)" }} />
+        <div style={{ position: "absolute", top: "-10%", left: "-5%", width: 500, height: 500, borderRadius: "50%", background: "rgba(255,255,255,0.04)", filter: "blur(80px)" }} />
+        <div style={{ position: "absolute", bottom: "-10%", right: "-5%", width: 600, height: 600, borderRadius: "50%", background: "rgba(255,255,255,0.03)", filter: "blur(100px)" }} />
       </div>
 
       <div style={{ maxWidth: 1320, margin: "0 auto", padding: "clamp(4rem,10vw,7rem) clamp(1.5rem,5vw,3.5rem)" }}>
 
         {/* Top row: label + heading */}
         <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", marginBottom: "clamp(3rem,7vw,5rem)" }}>
-          <p style={{ fontFamily: "var(--font-dm-sans), sans-serif", fontSize: "0.625rem", letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(255,255,255,0.30)", fontWeight: 500 }}>
+          <p style={{ fontFamily: "var(--font-dm-sans), sans-serif", fontSize: "0.6875rem", letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(255,255,255,0.85)", fontWeight: 600 }}>
             About Bhairava Media
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "2rem" }}>
@@ -301,7 +301,7 @@ export function AboutSnap() {
             >
               We don&apos;t just make content.
               <br />
-              <span style={{ color: "rgba(255,255,255,0.22)", fontWeight: 300, fontStyle: "italic" }}>
+              <span style={{ color: "rgba(255,255,255,0.85)", fontWeight: 400, fontStyle: "italic" }}>
                 We build movements.
               </span>
             </h2>
@@ -313,25 +313,26 @@ export function AboutSnap() {
 
           {/* LEFT: philosophy */}
           <div>
-            <p style={{ fontFamily: "var(--font-dm-sans), sans-serif", fontSize: "clamp(0.9rem,1.4vw,1.0625rem)", lineHeight: 1.78, color: "rgba(255,255,255,0.45)", fontWeight: 300, marginBottom: "2rem" }}>
+            <p style={{ fontFamily: "var(--font-dm-sans), sans-serif", fontSize: "clamp(0.95rem,1.4vw,1.125rem)", lineHeight: 1.75, color: "#ffffff", fontWeight: 400, marginBottom: "2rem" }}>
               Bhairava Media was born from a simple belief: great creative work should also drive measurable business results. We sit at the intersection of storytelling and strategy — building the kind of content that earns attention and converts it into revenue.
             </p>
 
             {/* Philosophy pills */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.6rem" }}>
               {["Story-first", "Data-driven", "Brand-obsessed", "Always iterating"].map((tag) => (
                 <span
                   key={tag}
                   style={{
                     fontFamily: "var(--font-dm-sans), sans-serif",
-                    fontSize: "0.625rem",
-                    fontWeight: 500,
+                    fontSize: "0.6875rem",
+                    fontWeight: 600,
                     letterSpacing: "0.18em",
                     textTransform: "uppercase",
-                    color: "rgba(255,255,255,0.45)",
-                    border: "1px solid rgba(255,255,255,0.12)",
+                    color: "#ffffff",
+                    border: "1px solid rgba(255,255,255,0.40)",
+                    background: "rgba(255,255,255,0.12)",
                     borderRadius: 100,
-                    padding: "0.4rem 0.9rem",
+                    padding: "0.45rem 1rem",
                   }}
                 >
                   {tag}
@@ -341,20 +342,20 @@ export function AboutSnap() {
           </div>
 
           {/* RIGHT: services grid */}
-          <div className="about-services-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 16, overflow: "hidden" }}>
+          <div className="about-services-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", border: "1px solid rgba(255,255,255,0.20)", borderRadius: 16, overflow: "hidden" }}>
             {services.map((s) => (
               <div
                 key={s.title}
                 style={{
-                  background: "rgba(255,255,255,0.025)",
+                  background: "rgba(255,255,255,0.07)",
                   padding: "1.5rem",
-                  borderRight: "1px solid rgba(255,255,255,0.06)",
-                  borderBottom: "1px solid rgba(255,255,255,0.06)",
+                  borderRight: "1px solid rgba(255,255,255,0.15)",
+                  borderBottom: "1px solid rgba(255,255,255,0.15)",
                 }}
               >
-                <span style={{ fontSize: "1rem", color: "rgba(255,255,255,0.35)", display: "block", marginBottom: "0.75rem" }}>{s.icon}</span>
-                <p style={{ fontFamily: "var(--font-syne), sans-serif", fontSize: "0.875rem", fontWeight: 600, color: "white", letterSpacing: "-0.02em", marginBottom: "0.4rem" }}>{s.title}</p>
-                <p style={{ fontFamily: "var(--font-dm-sans), sans-serif", fontSize: "0.75rem", lineHeight: 1.6, color: "rgba(255,255,255,0.35)", fontWeight: 300 }}>{s.desc}</p>
+                <span style={{ fontSize: "1.1rem", color: "#ffffff", display: "block", marginBottom: "0.75rem" }}>{s.icon}</span>
+                <p style={{ fontFamily: "var(--font-syne), sans-serif", fontSize: "0.9375rem", fontWeight: 700, color: "#ffffff", letterSpacing: "-0.02em", marginBottom: "0.4rem" }}>{s.title}</p>
+                <p style={{ fontFamily: "var(--font-dm-sans), sans-serif", fontSize: "0.8125rem", lineHeight: 1.6, color: "rgba(255,255,255,0.88)", fontWeight: 400 }}>{s.desc}</p>
               </div>
             ))}
           </div>
@@ -378,31 +379,31 @@ export function DarkDivider({
   return (
     <div
       style={{
-        background: "#0a0a0a",
+        background: "#800000",
         padding: "clamp(3rem, 7vw, 5.5rem) clamp(1.5rem, 5vw, 3.5rem)",
         position: "relative",
         overflow: "hidden",
       }}
     >
       {/* thin top line */}
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "rgba(255,255,255,0.05)" }} />
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "rgba(255,255,255,0.15)" }} />
 
       <div style={{ maxWidth: 1320, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "2rem", flexWrap: "wrap" }}>
         <p
           style={{
             fontFamily: "var(--font-syne), sans-serif",
             fontSize: "clamp(1.5rem, 4vw, 3.25rem)",
-            fontWeight: 300,
+            fontWeight: 400,
             fontStyle: "italic",
             letterSpacing: "-0.03em",
             lineHeight: 1.1,
-            color: "rgba(255,255,255,0.75)",
+            color: "#ffffff",
             maxWidth: "28ch",
           }}
         >
           &ldquo;{quote}&rdquo;
         </p>
-        <p style={{ fontFamily: "var(--font-dm-sans), sans-serif", fontSize: "0.625rem", letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(255,255,255,0.22)", fontWeight: 500, flexShrink: 0 }}>
+        <p style={{ fontFamily: "var(--font-dm-sans), sans-serif", fontSize: "0.6875rem", letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(255,255,255,0.85)", fontWeight: 600, flexShrink: 0 }}>
           {label}
         </p>
       </div>
@@ -1261,7 +1262,7 @@ export function ReelStack({ ready = true }: ReelStackProps) {
           <div className="flex flex-col justify-center flex-1 min-w-0 py-4">
 
             {/* Heading */}
-            <p className="label-eyebrow mb-4" style={{ color: "rgba(255,255,255,0.30)" }}>
+            <p className="label-eyebrow mb-4 font-semibold" style={{ color: "rgba(255,255,255,0.85)" }}>
               Content Engine
             </p>
             <h2
@@ -1270,18 +1271,18 @@ export function ReelStack({ ready = true }: ReelStackProps) {
             >
               Reels built
               <br />
-              <span style={{ fontWeight: 300, fontStyle: "italic", color: "rgba(255,255,255,0.22)" }}>
+              <span style={{ fontWeight: 400, fontStyle: "italic", color: "rgba(255,255,255,0.85)" }}>
                 to stop the scroll.
               </span>
             </h2>
-            <p className="mt-4 text-[0.875rem] leading-[1.7] font-light"
-              style={{ color: "rgba(255,255,255,0.38)", maxWidth: "22rem" }}>
+            <p className="mt-4 text-[0.9375rem] leading-[1.7] font-normal"
+              style={{ color: "rgba(255,255,255,0.90)", maxWidth: "24rem" }}>
               Every piece of content is engineered for retention — hook,
               narrative, and CTA in the first three seconds.
             </p>
 
             {/* Reel list */}
-            <div className="mt-8 border-t" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
+            <div className="mt-8 border-t" style={{ borderColor: "rgba(255,255,255,0.15)" }}>
               {reels.map((reel, index) => {
                 const isActive = index === activeIndex;
                 return (
@@ -1291,8 +1292,8 @@ export function ReelStack({ ready = true }: ReelStackProps) {
                     onMouseEnter={() => switchReel(index)}
                     className="w-full text-left border-b transition-all duration-200"
                     style={{
-                      borderColor: "rgba(255,255,255,0.08)",
-                      opacity: isActive ? 1 : 0.38,
+                      borderColor: "rgba(255,255,255,0.15)",
+                      opacity: isActive ? 1 : 0.65,
                       padding: "0.9rem 0",
                       display: "flex",
                       alignItems: "center",
