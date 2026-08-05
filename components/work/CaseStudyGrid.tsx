@@ -158,14 +158,35 @@ export function CaseStudyGrid() {
 
       {/* Grid Mode View — Bento Grid Layout */}
       {viewMode === "grid" && (
-        <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-[380px]">
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-[380px] md:auto-rows-[420px]">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project, idx) => {
-              // Bento span logic for visual hierarchy
-              const isHeroBento = idx === 0; // First item (IDFC FIRST Bank) spans 2 cols on desktop
-              const spanClass = isHeroBento
-                ? "md:col-span-2 lg:col-span-2"
-                : "col-span-1";
+              const total = filteredProjects.length;
+              let spanClass = "col-span-1";
+
+              if (total === 1) {
+                // Single item spans full grid width across desktop, tablet, and mobile
+                spanClass = "col-span-1 md:col-span-2 lg:col-span-3";
+              } else if (total === 2) {
+                // Two items fill full 3-col row (2 + 1 = 3)
+                spanClass = idx === 0 ? "col-span-1 md:col-span-2 lg:col-span-2" : "col-span-1";
+              } else if (total === 3) {
+                // Three items: 2+1 on row 1, 3 (full width) on row 2
+                if (idx === 0) spanClass = "col-span-1 md:col-span-2 lg:col-span-2";
+                else if (idx === 1) spanClass = "col-span-1";
+                else if (idx === 2) spanClass = "col-span-1 md:col-span-2 lg:col-span-3";
+              } else if (total === 4) {
+                // Four items: 2+1 on row 1, 1+2 on row 2
+                if (idx === 0) spanClass = "col-span-1 md:col-span-2 lg:col-span-2";
+                else if (idx === 1) spanClass = "col-span-1";
+                else if (idx === 2) spanClass = "col-span-1";
+                else if (idx === 3) spanClass = "col-span-1 md:col-span-2 lg:col-span-2";
+              } else {
+                // 5 or 6 items (e.g. All 6 projects)
+                if (idx === 0) spanClass = "col-span-1 md:col-span-2 lg:col-span-2";
+                else if (idx === 3) spanClass = "col-span-1 md:col-span-2 lg:col-span-2";
+                else spanClass = "col-span-1";
+              }
 
               return (
                 <motion.div
