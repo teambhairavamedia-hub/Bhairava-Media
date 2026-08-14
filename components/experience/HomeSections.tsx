@@ -542,7 +542,7 @@ export function FullscreenShowreel() {
         >
           <video
             ref={videoRef}
-            src="/media/podcast/video.mp4"
+            src="https://6xft9z0vzph7qrfh.public.blob.vercel-storage.com/media/podcast/video-QUIpyvnVSaTFYdvf7ohl7su5A2CcUl.mp4"
             muted={isMuted}
             loop
             playsInline

@@ -123,7 +123,7 @@ export default function AboutPage() {
             <div className="relative rounded-[2.5rem] overflow-hidden border border-[#e4e4e7] bg-[#0a0a0a] shadow-2xl flex flex-col justify-end p-8 md:p-12 min-h-[450px] lg:min-h-[550px] group">
               {/* Founder Image */}
               <img
-                src="/media/founder/founder.jpg"
+                src="https://6xft9z0vzph7qrfh.public.blob.vercel-storage.com/media/founder/founder-f2ovW1aAw2yHLcv2XuCepudGIFnI91.jpg"
                 alt="Rajesh Waghchaware - Founder & Creative Director"
                 className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-103 transition-transform duration-700 ease-out z-0"
               />
