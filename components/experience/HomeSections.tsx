@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { gsap, registerGsap, ScrollTrigger } from "@/hooks/useGsap";
+import { gsap, registerGsap } from "@/hooks/useGsap";
 import { experienceConfig } from "@/lib/experience";
 import { Section } from "@/components/ui/Section";
 import { MagneticButton } from "@/components/ui/MagneticButton";
@@ -193,7 +193,7 @@ export function CinematicHero({ ready = true }: CinematicHeroProps) {
             {[
               { value: "120M+", label: "Views Generated" },
               { value: "3×", label: "Avg. ROAS" },
-              { value: "200+", label: "Brands Scaled" },
+              { value: "10+", label: "Brands Scaled" },
             ].map((stat) => (
               <div key={stat.label} className="flex flex-col items-center gap-1">
                 <span
@@ -418,11 +418,11 @@ export function DarkDivider({
    2. MARQUEE TEXT
    ────────────────────────────────────────────────────────────────────────── */
 const brands = [
-  { name: "Nova Skincare", label: "NOVA" },
-  { name: "Pulse Fitness", label: "PULSE" },
-  { name: "Ember Hotels", label: "EMBER" },
-  { name: "Axis Fintech", label: "AXIS" },
-  { name: "Velvet Co.", label: "VELVET" },
+  { name: "IDFC First Bank", label: "IDFC First Bank" },
+  { name: "LSF", label: "LSF" },
+  { name: "Freshoo", label: "Freshoo" },
+  { name: "Happy Minds", label: "Happy Minds" },
+  { name: "Quberx", label: "Quberx"}
 ];
 
 export function MarqueeText() {
@@ -432,23 +432,23 @@ export function MarqueeText() {
     <Section
       theme="light"
       className="overflow-hidden border-y select-none"
-      style={{ background: "#ffffff", borderColor: "rgba(10,10,10,0.07)", padding: "0.6rem 0" }}
+      style={{ background: "#ffffff", borderColor: "rgba(10,10,10,0.07)", padding: "0.85rem 0" }}
     >
-      <div className="marquee-track flex w-max items-center" style={{ gap: "2.5rem" }}>
+      <div className="marquee-track flex w-max items-center" style={{ gap: "30px" }}>
         {items.map((brand, index) => (
           <div
             key={`${brand.label}-${index}`}
             className="flex shrink-0 items-center"
-            style={{ gap: "2.5rem" }}
+            style={{ gap: "30px" }}
           >
             <span
               style={{
                 fontFamily: "var(--font-dm-sans), sans-serif",
-                fontSize: "0.625rem",
+                fontSize: "15px",
                 fontWeight: 600,
-                letterSpacing: "0.28em",
+                letterSpacing: "0.18em",
                 textTransform: "uppercase",
-                color: "rgba(10,10,10,0.32)",
+                color: "rgba(10,10,10,0.68)",
                 whiteSpace: "nowrap",
               }}
             >
@@ -471,105 +471,7 @@ export function MarqueeText() {
 }
 
 /* ──────────────────────────────────────────────────────────────────────────
-   3. FULLSCREEN SHOWREEL
-   ────────────────────────────────────────────────────────────────────────── */
-export function FullscreenShowreel() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const videoWrapperRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isMuted, setIsMuted] = useState(true);
-
-  useEffect(() => {
-    registerGsap();
-    const container = containerRef.current;
-    const videoWrapper = videoWrapperRef.current;
-    if (!container || !videoWrapper) return;
-
-    const ctx = gsap.context(() => {
-      gsap
-        .timeline({
-          scrollTrigger: {
-            trigger: container,
-            start: "top top",
-            end: "bottom top",
-            scrub: 0.6,
-            pin: true,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-        })
-        // Use scale+borderRadius instead of width/height — stays on GPU compositor,
-        // no layout recalc every scroll frame
-        .to(videoWrapper, {
-          scale: 1.67,
-          borderRadius: "0px",
-          ease: "none",
-        });
-    }, container);
-
-    const video = videoRef.current;
-    if (video) {
-      ScrollTrigger.create({
-        trigger: container,
-        start: "top center",
-        onEnter: () => void video.play().catch(() => {}),
-        onLeave: () => video.pause(),
-        onEnterBack: () => void video.play().catch(() => {}),
-        onLeaveBack: () => video.pause(),
-      });
-    }
-
-    return () => ctx.revert();
-  }, []);
-
-  const toggleSound = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
-  };
-
-  return (
-    <div
-      ref={containerRef}
-      className="relative h-screen w-full bg-white overflow-hidden"
-    >
-      <div className="flex h-full items-center justify-center w-full relative">
-        <div
-          ref={videoWrapperRef}
-          className="relative w-[60vw] h-[60vh] rounded-[2.5rem] overflow-hidden border border-[#e4e4e7] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)] bg-[#800000]"
-          style={{ willChange: "transform" }}
-        >
-          <video
-            ref={videoRef}
-            src="https://6xft9z0vzph7qrfh.public.blob.vercel-storage.com/media/podcast/video-QUIpyvnVSaTFYdvf7ohl7su5A2CcUl.mp4"
-            muted={isMuted}
-            loop
-            playsInline
-            preload="metadata"
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/10 pointer-events-none" />
-
-          {/* Sound Toggle Button */}
-          <button
-            onClick={toggleSound}
-            className="absolute bottom-6 right-6 z-30 flex items-center gap-2 rounded-full bg-black/60 border border-white/20 px-4 py-2 text-white backdrop-blur-md hover:bg-black/80 transition-all duration-300 shadow-xl cursor-pointer"
-            aria-label={isMuted ? "Unmute video" : "Mute video"}
-          >
-            <span className="text-xs">{isMuted ? "🔇" : "🔊"}</span>
-            <span className="text-[10px] font-bold uppercase tracking-wider">
-              {isMuted ? "Enable Sound" : "Mute Sound"}
-            </span>
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ──────────────────────────────────────────────────────────────────────────
-   4. STORY STICKY (PROCESS)
+   3. STORY STICKY (PROCESS)
    ────────────────────────────────────────────────────────────────────────── */
 type StoryStickyProps = {
   ready?: boolean;
@@ -1684,7 +1586,7 @@ function MarqueeRow({
         .marquee-row-inner:hover { animation-play-state: paused !important; }
       `}</style>
 
-      <div
+      {/* <div
         className="marquee-row-inner"
         style={{
           display: "flex",
@@ -1696,7 +1598,7 @@ function MarqueeRow({
         {doubled.map((t, i) => (
           <TestimonialCard key={`${t.author}-${i}`} t={t} />
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }
@@ -1786,7 +1688,7 @@ export function TestimonialsAsymmetric() {
                     fontWeight: 500,
                   }}
                 >
-                  200+ brands scaled
+                  10+ brands scaled
                 </span>
               </div>
             </div>

@@ -57,7 +57,7 @@ export function ContactForm() {
           <input
             type="text"
             required
-            placeholder="Rajesh Waghchaware"
+            placeholder="John Doe"
             className="w-full rounded-xl border border-[#0a0a0a]/8 bg-white px-4 py-3 text-sm text-[#0a0a0a] placeholder:text-[#0a0a0a]/25 focus:outline-none focus:border-[#800000]/40 focus:ring-1 focus:ring-[#800000]/20 transition-all duration-200"
             style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
           />
@@ -69,7 +69,7 @@ export function ContactForm() {
           <input
             type="email"
             required
-            placeholder="rajesh@company.com"
+            placeholder="you@company.com"
             className="w-full rounded-xl border border-[#0a0a0a]/8 bg-white px-4 py-3 text-sm text-[#0a0a0a] placeholder:text-[#0a0a0a]/25 focus:outline-none focus:border-[#800000]/40 focus:ring-1 focus:ring-[#800000]/20 transition-all duration-200"
             style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
           />

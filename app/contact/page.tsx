@@ -6,6 +6,7 @@ import { Section } from "@/components/ui/Section";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { siteConfig } from "@/lib/site";
 
 const faqs = [
   {
@@ -71,7 +72,7 @@ export default function ContactPage() {
                     className="text-sm font-semibold text-black block"
                     style={{ fontFamily: "var(--font-syne), sans-serif" }}
                   >
-                    Mumbai, Maharashtra, IN
+                    PUNE, Maharashtra, IN
                   </span>
                 </div>
 
@@ -94,9 +95,9 @@ export default function ContactPage() {
                 </span>
                 <div className="flex gap-4">
                   {[
-                    { label: "LinkedIn", url: "https://linkedin.com/in/rajesh-waghchaware" },
-                    { label: "Twitter", url: "https://twitter.com/rajesh_w" },
-                    { label: "Instagram", url: "https://www.instagram.com/bhairava.media/" },
+                    { label: "LinkedIn", url: siteConfig.social?.linkedin },
+                    { label: "Twitter", url: siteConfig.social?.twitter },
+                    { label: "Instagram", url: siteConfig.social?.instagram },
                   ].map((soc) => (
                     <a
                       key={soc.label}
@@ -127,7 +128,7 @@ export default function ContactPage() {
                     ))}
                   </div>
                   <span className="text-[8px] uppercase tracking-wider text-black/40 font-bold">
-                    Trusted by 200+ brands
+                    Trusted by 10+ brands
                   </span>
                 </div>
                 <blockquote className="text-xs text-black/60 leading-relaxed font-light italic">

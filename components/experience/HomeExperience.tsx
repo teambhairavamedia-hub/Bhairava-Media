@@ -8,7 +8,6 @@ import {
   CinematicHero,
   AboutSnap,
   MarqueeText,
-  FullscreenShowreel,
   StorySticky,
   HorizontalPortfolio,
   ReelStack,
@@ -35,7 +34,7 @@ export function HomeExperience() {
     const marqueeTween = gsap.to(".marquee-track", {
       xPercent: -50,
       ease: "none",
-      duration: 32,
+      duration: 42,
       repeat: -1,
     });
 
@@ -81,19 +80,16 @@ export function HomeExperience() {
         {/* ③ About Us — light */}
         <AboutSnap />
 
-        {/* ④ Showreel — full bleed */}
-        <FullscreenShowreel />
-
-        {/* ⑤ Story / Services — light */}
+        {/* ④ Story / Services — light */}
         <StorySticky ready={introComplete} />
 
-        {/* ⑥ Portfolio — light */}
+        {/* ⑤ Portfolio — light */}
         <HorizontalPortfolio ready={introComplete} />
 
-        {/* ⑦ Reels — BLACK (the one dark section) */}
+        {/* ⑥ Reels — BLACK (the one dark section) */}
         <ReelStack ready={introComplete} />
 
-        {/* ⑧ Testimonials — light */}
+        {/* ⑦ Testimonials — light */}
         <TestimonialsAsymmetric />
 
       </div>
