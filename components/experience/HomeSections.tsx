@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { gsap, registerGsap, ScrollTrigger } from "@/hooks/useGsap";
+import { gsap, registerGsap } from "@/hooks/useGsap";
 import { experienceConfig } from "@/lib/experience";
 import { Section } from "@/components/ui/Section";
 import { MagneticButton } from "@/components/ui/MagneticButton";
@@ -471,105 +471,7 @@ export function MarqueeText() {
 }
 
 /* ──────────────────────────────────────────────────────────────────────────
-   3. FULLSCREEN SHOWREEL
-   ────────────────────────────────────────────────────────────────────────── */
-export function FullscreenShowreel() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const videoWrapperRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isMuted, setIsMuted] = useState(true);
-
-  useEffect(() => {
-    registerGsap();
-    const container = containerRef.current;
-    const videoWrapper = videoWrapperRef.current;
-    if (!container || !videoWrapper) return;
-
-    const ctx = gsap.context(() => {
-      gsap
-        .timeline({
-          scrollTrigger: {
-            trigger: container,
-            start: "top top",
-            end: "bottom top",
-            scrub: 0.6,
-            pin: true,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-        })
-        // Use scale+borderRadius instead of width/height — stays on GPU compositor,
-        // no layout recalc every scroll frame
-        .to(videoWrapper, {
-          scale: 1.67,
-          borderRadius: "0px",
-          ease: "none",
-        });
-    }, container);
-
-    const video = videoRef.current;
-    if (video) {
-      ScrollTrigger.create({
-        trigger: container,
-        start: "top center",
-        onEnter: () => void video.play().catch(() => {}),
-        onLeave: () => video.pause(),
-        onEnterBack: () => void video.play().catch(() => {}),
-        onLeaveBack: () => video.pause(),
-      });
-    }
-
-    return () => ctx.revert();
-  }, []);
-
-  const toggleSound = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
-  };
-
-  return (
-    <div
-      ref={containerRef}
-      className="relative h-screen w-full bg-white overflow-hidden"
-    >
-      <div className="flex h-full items-center justify-center w-full relative">
-        <div
-          ref={videoWrapperRef}
-          className="relative w-[60vw] h-[60vh] rounded-[2.5rem] overflow-hidden border border-[#e4e4e7] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)] bg-[#800000]"
-          style={{ willChange: "transform" }}
-        >
-          <video
-            ref={videoRef}
-            src="https://6xft9z0vzph7qrfh.public.blob.vercel-storage.com/media/podcast/video-QUIpyvnVSaTFYdvf7ohl7su5A2CcUl.mp4"
-            muted={isMuted}
-            loop
-            playsInline
-            preload="metadata"
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/10 pointer-events-none" />
-
-          {/* Sound Toggle Button */}
-          <button
-            onClick={toggleSound}
-            className="absolute bottom-6 right-6 z-30 flex items-center gap-2 rounded-full bg-black/60 border border-white/20 px-4 py-2 text-white backdrop-blur-md hover:bg-black/80 transition-all duration-300 shadow-xl cursor-pointer"
-            aria-label={isMuted ? "Unmute video" : "Mute video"}
-          >
-            <span className="text-xs">{isMuted ? "🔇" : "🔊"}</span>
-            <span className="text-[10px] font-bold uppercase tracking-wider">
-              {isMuted ? "Enable Sound" : "Mute Sound"}
-            </span>
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ──────────────────────────────────────────────────────────────────────────
-   4. STORY STICKY (PROCESS)
+   3. STORY STICKY (PROCESS)
    ────────────────────────────────────────────────────────────────────────── */
 type StoryStickyProps = {
   ready?: boolean;
