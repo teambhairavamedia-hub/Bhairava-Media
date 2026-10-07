@@ -133,7 +133,18 @@ export function Footer() {
             >
               LinkedIn
             </a>
+                        <a
+              href={siteConfig.social?.twitter ?? "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[0.8125rem] font-medium text-white/50 transition-colors hover:text-white"
+              style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}
+            >
+              X
+            </a>
+
           </div>
+
 
           {/* Col 4: Location & Local Time */}
           <div className="flex flex-col gap-2">

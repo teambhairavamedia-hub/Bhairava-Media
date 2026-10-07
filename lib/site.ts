@@ -6,8 +6,8 @@ export const siteConfig = {
   email: "hello@bhairavamedia.com",
   social: {
     instagram: "https://www.instagram.com/bhairava.media/",
-    linkedin: "https://linkedin.com/company/bhairavamedia",
-    twitter: "https://twitter.com/bhairavamedia",
+    linkedin: "https://www.linkedin.com/company/bhairava-mediaa",
+    twitter: "https://x.com/bhairava_media",
   },
   nav: [
     { label: "Home", href: "/" },
