@@ -54,7 +54,7 @@ const milestones = [
   {
     year: "2026",
     title: "Global Compound Growth",
-    desc: "Expanded into international markets. Today, Bhairava Media serves 200+ brands globally, generating over 120M+ views annually, and engineering digital scale for industry leaders.",
+    desc: "Expanded into international markets. Today, Bhairava Media serves 10+ brands globally, generating over 120M+ views annually, and engineering digital scale for industry leaders.",
   },
 ];
 

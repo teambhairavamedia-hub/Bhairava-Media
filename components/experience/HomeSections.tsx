@@ -193,7 +193,7 @@ export function CinematicHero({ ready = true }: CinematicHeroProps) {
             {[
               { value: "120M+", label: "Views Generated" },
               { value: "3×", label: "Avg. ROAS" },
-              { value: "200+", label: "Brands Scaled" },
+              { value: "10+", label: "Brands Scaled" },
             ].map((stat) => (
               <div key={stat.label} className="flex flex-col items-center gap-1">
                 <span
@@ -1786,7 +1786,7 @@ export function TestimonialsAsymmetric() {
                     fontWeight: 500,
                   }}
                 >
-                  200+ brands scaled
+                  10+ brands scaled
                 </span>
               </div>
             </div>

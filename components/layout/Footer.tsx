@@ -139,7 +139,7 @@ export function Footer() {
           <div className="flex flex-col gap-2">
             <p className="label-eyebrow text-white/20 mb-2">Office</p>
             <p className="text-[0.8125rem] font-medium text-white/80" style={{ fontFamily: "var(--font-syne), sans-serif" }}>
-              MUMBAI, IN
+              PUNE, IN
             </p>
             {localTime && (
               <p className="text-[0.75rem] font-medium text-white/35 tabular-nums mt-1" style={{ fontFamily: "var(--font-dm-sans), sans-serif" }}>

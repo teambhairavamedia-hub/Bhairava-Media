@@ -33,13 +33,13 @@ export default function WorkPage() {
           {[
             "120M+ Views Delivered",
             "₹4.5Cr+ Revenue Generated",
-            "200+ Brands Scaled",
+            "10+ Brands Scaled",
             "400% Average ROAS",
             "94% Client Retention",
             "850+ Campaigns Launched",
             "120M+ Views Delivered",
             "₹4.5Cr+ Revenue Generated",
-            "200+ Brands Scaled",
+            "10+ Brands Scaled",
             "400% Average ROAS",
           ].map((stat, i) => (
             <span
