@@ -34,7 +34,7 @@ export function HomeExperience() {
     const marqueeTween = gsap.to(".marquee-track", {
       xPercent: -50,
       ease: "none",
-      duration: 32,
+      duration: 42,
       repeat: -1,
     });
 

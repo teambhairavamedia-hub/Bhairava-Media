@@ -432,23 +432,23 @@ export function MarqueeText() {
     <Section
       theme="light"
       className="overflow-hidden border-y select-none"
-      style={{ background: "#ffffff", borderColor: "rgba(10,10,10,0.07)", padding: "0.6rem 0" }}
+      style={{ background: "#ffffff", borderColor: "rgba(10,10,10,0.07)", padding: "0.85rem 0" }}
     >
-      <div className="marquee-track flex w-max items-center" style={{ gap: "2.5rem" }}>
+      <div className="marquee-track flex w-max items-center" style={{ gap: "30px" }}>
         {items.map((brand, index) => (
           <div
             key={`${brand.label}-${index}`}
             className="flex shrink-0 items-center"
-            style={{ gap: "2.5rem" }}
+            style={{ gap: "30px" }}
           >
             <span
               style={{
                 fontFamily: "var(--font-dm-sans), sans-serif",
-                fontSize: "0.625rem",
+                fontSize: "15px",
                 fontWeight: 600,
-                letterSpacing: "0.28em",
+                letterSpacing: "0.18em",
                 textTransform: "uppercase",
-                color: "rgba(10,10,10,0.32)",
+                color: "rgba(10,10,10,0.68)",
                 whiteSpace: "nowrap",
               }}
             >

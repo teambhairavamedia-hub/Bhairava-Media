@@ -6,6 +6,7 @@ import { Section } from "@/components/ui/Section";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { siteConfig } from "@/lib/site";
 
 const faqs = [
   {
@@ -94,9 +95,9 @@ export default function ContactPage() {
                 </span>
                 <div className="flex gap-4">
                   {[
-                    { label: "LinkedIn", url: "https://linkedin.com/in/rajesh-waghchaware" },
-                    { label: "Twitter", url: "https://twitter.com/rajesh_w" },
-                    { label: "Instagram", url: "https://www.instagram.com/bhairava.media/" },
+                    { label: "LinkedIn", url: siteConfig.social?.linkedin },
+                    { label: "Twitter", url: siteConfig.social?.twitter },
+                    { label: "Instagram", url: siteConfig.social?.instagram },
                   ].map((soc) => (
                     <a
                       key={soc.label}
