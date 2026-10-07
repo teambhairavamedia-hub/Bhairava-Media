@@ -418,11 +418,11 @@ export function DarkDivider({
    2. MARQUEE TEXT
    ────────────────────────────────────────────────────────────────────────── */
 const brands = [
-  { name: "Nova Skincare", label: "NOVA" },
-  { name: "Pulse Fitness", label: "PULSE" },
-  { name: "Ember Hotels", label: "EMBER" },
-  { name: "Axis Fintech", label: "AXIS" },
-  { name: "Velvet Co.", label: "VELVET" },
+  { name: "IDFC First Bank", label: "IDFC First Bank" },
+  { name: "LSF", label: "LSF" },
+  { name: "Freshoo", label: "Freshoo" },
+  { name: "Happy Minds", label: "Happy Minds" },
+  { name: "Quberx", label: "Quberx"}
 ];
 
 export function MarqueeText() {
@@ -1586,7 +1586,7 @@ function MarqueeRow({
         .marquee-row-inner:hover { animation-play-state: paused !important; }
       `}</style>
 
-      <div
+      {/* <div
         className="marquee-row-inner"
         style={{
           display: "flex",
@@ -1598,7 +1598,7 @@ function MarqueeRow({
         {doubled.map((t, i) => (
           <TestimonialCard key={`${t.author}-${i}`} t={t} />
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }
