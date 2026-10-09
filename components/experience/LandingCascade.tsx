@@ -91,6 +91,13 @@ export function LandingCascade({ onComplete, onRevealStart }: LandingCascadeProp
   const timeoutsRef = useRef<number[]>([]);
   const intervalRef = useRef<number | null>(null);
   const sequenceDoneRef = useRef(false);
+  const onCompleteRef = useRef(onComplete);
+  const onRevealStartRef = useRef(onRevealStart);
+
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+    onRevealStartRef.current = onRevealStart;
+  }, [onComplete, onRevealStart]);
 
   const mult = getMultiplier(windowWidth);
 
@@ -142,12 +149,12 @@ export function LandingCascade({ onComplete, onRevealStart }: LandingCascadeProp
           markIntroPlayed();
           dispatchIntroComplete();
           setIsExiting(true);
-          onRevealStart?.(); // Reveal hero text immediately as slide starts
+          onRevealStartRef.current?.(); // Reveal hero text immediately as slide starts
         }, 1800);
 
         // Exit animation is 850ms — fire onComplete at 2750ms to unmount splash screen fully
         schedule(() => {
-          onComplete?.();
+          onCompleteRef.current?.();
         }, 2750);
 
         return prev;
@@ -159,7 +166,7 @@ export function LandingCascade({ onComplete, onRevealStart }: LandingCascadeProp
       timeoutsRef.current.forEach((id) => window.clearTimeout(id));
       timeoutsRef.current = [];
     };
-  }, [onComplete]);
+  }, []);
 
   return (
     <motion.section

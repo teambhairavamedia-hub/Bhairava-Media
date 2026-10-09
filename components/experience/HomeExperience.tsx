@@ -90,7 +90,7 @@ export function HomeExperience() {
         <ReelStack ready={introComplete} />
 
         {/* ⑦ Testimonials — light */}
-        <TestimonialsAsymmetric />
+        {/* <TestimonialsAsymmetric /> */}
 
       </div>
     </>
