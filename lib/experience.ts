@@ -111,13 +111,13 @@ export const experienceConfig = {
       title: "About Bhairava Media",
       views: "4.8M Views",
       gradient: "from-violet-500 via-fuchsia-500 to-orange-400",
-      video: "https://6xft9z0vzph7qrfh.public.blob.vercel-storage.com/media/reels/reel_1-N1GBWrNEQfWAzgF53uUifXYN34THZZ.mp4",
+      videoId: "1w4EP_CPVp0",
     },
     {
       title: "How Bhairava Media Drives Brand Impact",
       views: "6.2M Views",
       gradient: "from-cyan-400 via-blue-500 to-indigo-600",
-      video: "https://6xft9z0vzph7qrfh.public.blob.vercel-storage.com/media/reels/reel_2-TLZDjCvmGDf5WEdiBYaomcKK7uPSWA.mp4",
+      videoId: "QbUl8Bfme9A",
     },
   ],
   metrics: [

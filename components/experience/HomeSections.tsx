@@ -1015,13 +1015,297 @@ type ReelStackProps = {
   ready?: boolean;
 };
 
+type YouTubePlayer = {
+  destroy: () => void;
+  getIframe: () => HTMLIFrameElement;
+  loadVideoById: (videoId: string) => void;
+  mute: () => void;
+  pauseVideo: () => void;
+  playVideo: () => void;
+  seekTo: (seconds: number, allowSeekAhead: boolean) => void;
+};
+
+type YouTubePlayerEvent = { target: YouTubePlayer };
+type YouTubeErrorEvent = { data: number };
+type YouTubeStateEvent = { data: number; target: YouTubePlayer };
+type YouTubeApi = {
+  Player: new (
+    element: HTMLElement,
+    options: {
+      width: string;
+      height: string;
+      videoId: string;
+      playerVars: Record<string, string | number>;
+      events: {
+        onReady: (event: YouTubePlayerEvent) => void;
+        onError: (event: YouTubeErrorEvent) => void;
+        onAutoplayBlocked: () => void;
+        onStateChange: (event: YouTubeStateEvent) => void;
+      };
+    },
+  ) => YouTubePlayer;
+};
+
+declare global {
+  interface Window {
+    YT?: YouTubeApi;
+    onYouTubeIframeAPIReady?: () => void;
+  }
+}
+
+let youtubeApiPromise: Promise<YouTubeApi> | undefined;
+let activeYouTubeReelPlayer: YouTubePlayer | null = null;
+
+function loadYouTubeIframeApi() {
+  if (window.YT?.Player) return Promise.resolve(window.YT);
+  if (youtubeApiPromise) return youtubeApiPromise;
+
+  youtubeApiPromise = new Promise<YouTubeApi>((resolve, reject) => {
+    const previousCallback = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      window.onYouTubeIframeAPIReady = previousCallback;
+      previousCallback?.();
+      if (window.YT?.Player) resolve(window.YT);
+      else reject(new Error("YouTube IFrame Player API did not initialize."));
+    };
+
+    let script = document.getElementById("youtube-iframe-api") as HTMLScriptElement | null;
+    if (!script) {
+      script = document.createElement("script");
+      script.id = "youtube-iframe-api";
+      script.src = "https://www.youtube.com/iframe_api";
+      script.async = true;
+      script.onerror = () => {
+        window.onYouTubeIframeAPIReady = previousCallback;
+        reject(new Error("Unable to load YouTube IFrame Player API."));
+      };
+      document.head.appendChild(script);
+    }
+  }).catch((error: unknown) => {
+    youtubeApiPromise = undefined;
+    throw error;
+  });
+
+  return youtubeApiPromise;
+}
+
+type YouTubeReelPlayerProps = {
+  videoId: string;
+  active: boolean;
+  initialize: boolean;
+  title: string;
+};
+
+function YouTubeReelPlayer({ videoId, active, initialize, title }: YouTubeReelPlayerProps) {
+  const hostRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<YouTubePlayer | null>(null);
+  const activeRef = useRef(active);
+  const videoIdRef = useRef(videoId);
+  const loadedVideoIdRef = useRef(videoId);
+  const [isReady, setIsReady] = useState(false);
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
+
+  useEffect(() => {
+    activeRef.current = active;
+  }, [active]);
+
+  useEffect(() => {
+    videoIdRef.current = videoId;
+  }, [videoId]);
+
+  useEffect(() => {
+    if (!initialize || !hostRef.current || playerRef.current) return;
+
+    let cancelled = false;
+    let player: YouTubePlayer | null = null;
+    let playerDestroyed = false;
+
+    void loadYouTubeIframeApi()
+      .then((youtube) => {
+        if (cancelled || !hostRef.current) return;
+
+        player = new youtube.Player(hostRef.current, {
+          width: "200",
+          height: "200",
+          videoId: videoIdRef.current,
+          playerVars: {
+            autoplay: 0,
+            controls: 1,
+            loop: 1,
+            playlist: videoIdRef.current,
+            playsinline: 1,
+            rel: 0,
+            enablejsapi: 1,
+            origin: window.location.origin,
+          },
+          events: {
+            onReady: (event) => {
+              if (cancelled) {
+                if (!playerDestroyed) {
+                  playerDestroyed = true;
+                  event.target.destroy();
+                }
+                return;
+              }
+              playerRef.current = event.target;
+              const iframe = event.target.getIframe();
+              iframe.title = `YouTube video: ${title}`;
+              iframe.classList.add("youtube-reel-player");
+              iframe.style.position = "absolute";
+              iframe.style.inset = "0";
+              iframe.style.width = "100%";
+              iframe.style.height = "100%";
+              iframe.style.border = "0";
+              iframe.style.minWidth = "200px";
+              iframe.style.left = "50%";
+              iframe.style.transform = "translateX(-50%)";
+              iframe.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+              iframe.allowFullscreen = true;
+              event.target.mute();
+              setIsReady(true);
+            },
+            onError: (event) => {
+              // Keep the existing card and overlays stable if YouTube rejects playback.
+              console.error(`YouTube reel player error (${event.data}) for ${videoIdRef.current}.`);
+            },
+            onAutoplayBlocked: () => setAutoplayBlocked(true),
+            onStateChange: (event) => {
+              if (event.data === 0 && activeRef.current) {
+                event.target.seekTo(0, true);
+                event.target.playVideo();
+              }
+            },
+          },
+        });
+      })
+      .catch((error: unknown) => {
+        if (!cancelled) console.error("YouTube reel player could not be initialized.", error);
+      });
+
+    return () => {
+      cancelled = true;
+      setIsReady(false);
+      setAutoplayBlocked(false);
+      if (playerRef.current) {
+        if (activeYouTubeReelPlayer === playerRef.current) activeYouTubeReelPlayer = null;
+        if (!playerDestroyed) {
+          playerDestroyed = true;
+          playerRef.current.destroy();
+        }
+        playerRef.current = null;
+      } else if (player && !playerDestroyed) {
+        playerDestroyed = true;
+        player.destroy();
+      }
+    };
+  }, [initialize, title]);
+
+  useEffect(() => {
+    const player = playerRef.current;
+    if (!isReady || !player) return;
+
+    try {
+      if (!active) {
+        player.pauseVideo();
+        if (activeYouTubeReelPlayer === player) activeYouTubeReelPlayer = null;
+        return;
+      }
+
+      if (activeYouTubeReelPlayer && activeYouTubeReelPlayer !== player) {
+        activeYouTubeReelPlayer.pauseVideo();
+      }
+      activeYouTubeReelPlayer = player;
+
+      if (loadedVideoIdRef.current !== videoId) {
+        loadedVideoIdRef.current = videoId;
+        player.loadVideoById(videoId);
+        return;
+      }
+      player.playVideo();
+    } catch (error) {
+      console.error("YouTube reel playback could not be started.", error);
+    }
+  }, [active, isReady, videoId]);
+
+  return (
+    <>
+      <div ref={hostRef} aria-label={`Player for ${title}`} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} />
+      {autoplayBlocked && active && (
+        <button
+          type="button"
+          onClick={() => {
+            const player = playerRef.current;
+            if (!player) return;
+            player.mute();
+            player.playVideo();
+            setAutoplayBlocked(false);
+          }}
+          className="absolute inset-0 z-[2] flex items-center justify-center text-white"
+          style={{ background: "rgba(0,0,0,0.35)" }}
+          aria-label={`Play ${title}`}
+        >
+          <span style={{ display: "flex", width: 44, height: 44, alignItems: "center", justifyContent: "center", borderRadius: "50%", background: "rgba(0,0,0,0.65)", fontSize: 18 }}>▶</span>
+        </button>
+      )}
+    </>
+  );
+}
+
 export function ReelStack({ ready = true }: ReelStackProps) {
+  void ready;
   const [activeIndex, setActiveIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
   const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const [isSectionVisible, setIsSectionVisible] = useState(false);
+  const [visibleMobileReels, setVisibleMobileReels] = useState<Set<number>>(new Set());
+  const sectionRef = useRef<HTMLElement>(null);
+  const mobileRowRef = useRef<HTMLDivElement>(null);
+  const switchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { reels } = experienceConfig;
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || typeof IntersectionObserver === "undefined") {
+      setIsSectionVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsSectionVisible(entry.isIntersecting && entry.intersectionRatio >= 0.35),
+      { threshold: [0, 0.35, 0.6] },
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (isDesktop !== false) return;
+    const row = mobileRowRef.current;
+    if (!row || typeof IntersectionObserver === "undefined") {
+      setVisibleMobileReels(new Set(reels.map((_, index) => index)));
+      return;
+    }
+
+    const cards = Array.from(row.querySelectorAll<HTMLElement>("[data-reel-card]"));
+    const ratios = new Map<number, number>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const index = Number((entry.target as HTMLElement).dataset.reelIndex);
+          if (entry.isIntersecting) ratios.set(index, entry.intersectionRatio);
+          else ratios.delete(index);
+        }
+
+        setVisibleMobileReels(new Set(ratios.keys()));
+        const mostVisible = [...ratios.entries()].sort((a, b) => b[1] - a[1])[0];
+        if (mostVisible && mostVisible[1] >= 0.5) setActiveIndex(mostVisible[0]);
+      },
+      { root: row, threshold: [0, 0.25, 0.5, 0.75, 1] },
+    );
+
+    cards.forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
+  }, [isDesktop, reels]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 768px)");
@@ -1032,42 +1316,23 @@ export function ReelStack({ ready = true }: ReelStackProps) {
     return () => mediaQuery.removeEventListener("change", updateViewport);
   }, []);
 
+  useEffect(() => () => {
+    if (switchTimerRef.current) clearTimeout(switchTimerRef.current);
+  }, []);
+
   /* Switch reel with short cross-fade */
   const switchReel = (index: number) => {
     if (index === activeIndex || isTransitioning) return;
     setIsTransitioning(true);
-    setTimeout(() => {
+    switchTimerRef.current = setTimeout(() => {
       setActiveIndex(index);
       setIsTransitioning(false);
+      switchTimerRef.current = null;
     }, 220);
   };
 
-  /* Play active, pause others */
-  useEffect(() => {
-    if (!isDesktop) return;
-
-    videoRefs.current.forEach((v, i) => {
-      if (!v) return;
-      if (i === activeIndex) {
-        v.muted = isMuted;
-        void v.play().catch(() => {});
-      } else {
-        v.pause();
-        v.currentTime = 0;
-      }
-    });
-  }, [activeIndex, isMuted, isDesktop]);
-
-  const toggleSound = () => {
-    const activeVideo = videoRefs.current[activeIndex];
-    if (activeVideo) {
-      activeVideo.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
-  };
-
   return (
-    <Section theme="dark" className="relative" style={{ background: "#800000" }}>
+    <Section ref={sectionRef} theme="dark" className="relative" style={{ background: "#800000" }}>
 
       <div className="mx-auto max-w-[1320px] px-6 md:px-10 lg:px-14 py-20 md:py-28">
 
@@ -1088,64 +1353,20 @@ export function ReelStack({ ready = true }: ReelStackProps) {
                 background: "#111",
               }}
             >
-              {reels.map((reel, index) => (
-                <video
-                  key={reel.title}
-                  ref={(el) => { videoRefs.current[index] = el; }}
-                  src={activeIndex === index ? reel.video : undefined}
-                  autoPlay
-                  muted={isMuted}
-                  loop
-                  playsInline
-                  preload="auto"
-                  style={{
-                    position: "absolute", inset: 0,
-                    width: "100%", height: "100%",
-                    objectFit: "cover",
-                    opacity: activeIndex === index && !isTransitioning ? 1 : 0,
-                    transition: "opacity 0.25s ease",
-                    zIndex: activeIndex === index ? 1 : 0,
-                  }}
-                />
-              ))}
-
-              {/* Sound Toggle Button */}
-              <button
-                onClick={toggleSound}
-                style={{
-                  position: "absolute",
-                  bottom: 50,
-                  right: 12,
-                  zIndex: 20,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 6,
-                  borderRadius: 100,
-                  border: "1px solid rgba(255,255,255,0.2)",
-                  background: "rgba(0,0,0,0.65)",
-                  padding: "5px 12px",
-                  backdropFilter: "blur(8px)",
-                  color: "white",
-                  cursor: "pointer",
-                }}
-              >
-                <span style={{ fontSize: "0.75rem" }}>{isMuted ? "🔇" : "🔊"}</span>
-                <span style={{ fontSize: "0.5625rem", letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "var(--font-dm-sans), sans-serif", fontWeight: 700 }}>
-                  {isMuted ? "Sound Off" : "Sound On"}
-                </span>
-              </button>
-
-              {/* Live badge */}
-              <div style={{ position: "absolute", top: 12, left: 12, zIndex: 10, display: "flex", alignItems: "center", gap: 6, borderRadius: 100, border: "1px solid rgba(255,255,255,0.18)", background: "rgba(0,0,0,0.55)", padding: "5px 10px", backdropFilter: "blur(8px)" }}>
-                <span style={{ position: "relative", display: "flex", width: 6, height: 6 }}>
-                  <span className="animate-ping" style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#f87171", opacity: 0.75 }} />
-                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#ef4444", position: "relative" }} />
-                </span>
-                <span style={{ fontSize: "0.5625rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.85)", fontFamily: "var(--font-dm-sans), sans-serif", fontWeight: 600 }}>Live</span>
+              <div style={{ position: "absolute", inset: 0, opacity: isTransitioning ? 0 : 1, transition: "opacity 0.25s ease", zIndex: 1 }}>
+                {reels[activeIndex] && (
+                  <YouTubeReelPlayer
+                    key="desktop-reel-player"
+                    videoId={reels[activeIndex].videoId}
+                    title={reels[activeIndex].title}
+                    active={isSectionVisible}
+                    initialize={isSectionVisible}
+                  />
+                )}
               </div>
 
               {/* Bottom info */}
-              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 10, background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 100%)", padding: "2.5rem 1rem 1rem" }}>
+              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 10, background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 100%)", padding: "2.5rem 1rem 1rem", pointerEvents: "none" }}>
                 <p style={{ fontSize: "0.5625rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", fontFamily: "var(--font-dm-sans), sans-serif" }}>{reels[activeIndex]?.views}</p>
                 <p style={{ fontFamily: "var(--font-syne), sans-serif", fontWeight: 600, color: "white", fontSize: "0.9rem", letterSpacing: "-0.02em", marginTop: "0.2rem" }}>{reels[activeIndex]?.title}</p>
               </div>
@@ -1291,9 +1512,11 @@ export function ReelStack({ ready = true }: ReelStackProps) {
           {/* Snap scroll row */}
           <div className="flex gap-4 overflow-x-auto scrollbar-hide -mx-6 px-6 pb-4"
             style={{ scrollSnapType: "x mandatory" }}>
-            {reels.map((reel) => (
+            {reels.map((reel, index) => (
               <div
                 key={reel.title}
+                data-reel-card
+                data-reel-index={index}
                 style={{
                   position: "relative",
                   flexShrink: 0,
@@ -1308,10 +1531,14 @@ export function ReelStack({ ready = true }: ReelStackProps) {
                   background: "#111",
                 }}
               >
-                <video src={reel.video} autoPlay muted loop playsInline preload="auto"
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%)" }} />
-                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "0.875rem" }}>
+                <YouTubeReelPlayer
+                  videoId={reel.videoId}
+                  title={reel.title}
+                  active={isSectionVisible && activeIndex === index}
+                  initialize={isSectionVisible && visibleMobileReels.has(index)}
+                />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%)", pointerEvents: "none" }} />
+                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "0.875rem", pointerEvents: "none" }}>
                   <p style={{ fontSize: "0.5625rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.40)", fontFamily: "var(--font-dm-sans), sans-serif" }}>{reel.views}</p>
                   <p style={{ fontFamily: "var(--font-syne), sans-serif", fontWeight: 600, fontSize: "0.8125rem", color: "white", marginTop: "0.2rem" }}>{reel.title}</p>
                 </div>
