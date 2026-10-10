@@ -1130,7 +1130,7 @@ function YouTubeReelPlayer({ videoId, active, initialize, title }: YouTubeReelPl
           videoId: videoIdRef.current,
           playerVars: {
             autoplay: 0,
-            controls: 0,
+            controls: 1,
             loop: 1,
             playlist: videoIdRef.current,
             playsinline: 1,
@@ -1150,6 +1150,7 @@ function YouTubeReelPlayer({ videoId, active, initialize, title }: YouTubeReelPl
               playerRef.current = event.target;
               const iframe = event.target.getIframe();
               iframe.title = `YouTube video: ${title}`;
+              iframe.classList.add("youtube-reel-player");
               iframe.style.position = "absolute";
               iframe.style.inset = "0";
               iframe.style.width = "100%";
@@ -1160,6 +1161,7 @@ function YouTubeReelPlayer({ videoId, active, initialize, title }: YouTubeReelPl
               iframe.style.transform = "translateX(-50%)";
               iframe.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
               iframe.allowFullscreen = true;
+              event.target.mute();
               setIsReady(true);
             },
             onError: (event) => {
@@ -1169,7 +1171,6 @@ function YouTubeReelPlayer({ videoId, active, initialize, title }: YouTubeReelPl
             onAutoplayBlocked: () => setAutoplayBlocked(true),
             onStateChange: (event) => {
               if (event.data === 0 && activeRef.current) {
-                event.target.mute();
                 event.target.seekTo(0, true);
                 event.target.playVideo();
               }
@@ -1216,12 +1217,10 @@ function YouTubeReelPlayer({ videoId, active, initialize, title }: YouTubeReelPl
       activeYouTubeReelPlayer = player;
 
       if (loadedVideoIdRef.current !== videoId) {
-        player.mute();
         loadedVideoIdRef.current = videoId;
         player.loadVideoById(videoId);
         return;
       }
-      player.mute();
       player.playVideo();
     } catch (error) {
       console.error("YouTube reel playback could not be started.", error);
@@ -1367,7 +1366,7 @@ export function ReelStack({ ready = true }: ReelStackProps) {
               </div>
 
               {/* Bottom info */}
-              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 10, background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 100%)", padding: "2.5rem 1rem 1rem" }}>
+              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 10, background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 100%)", padding: "2.5rem 1rem 1rem", pointerEvents: "none" }}>
                 <p style={{ fontSize: "0.5625rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", fontFamily: "var(--font-dm-sans), sans-serif" }}>{reels[activeIndex]?.views}</p>
                 <p style={{ fontFamily: "var(--font-syne), sans-serif", fontWeight: 600, color: "white", fontSize: "0.9rem", letterSpacing: "-0.02em", marginTop: "0.2rem" }}>{reels[activeIndex]?.title}</p>
               </div>
@@ -1538,8 +1537,8 @@ export function ReelStack({ ready = true }: ReelStackProps) {
                   active={isSectionVisible && activeIndex === index}
                   initialize={isSectionVisible && visibleMobileReels.has(index)}
                 />
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%)" }} />
-                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "0.875rem" }}>
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%)", pointerEvents: "none" }} />
+                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "0.875rem", pointerEvents: "none" }}>
                   <p style={{ fontSize: "0.5625rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.40)", fontFamily: "var(--font-dm-sans), sans-serif" }}>{reel.views}</p>
                   <p style={{ fontFamily: "var(--font-syne), sans-serif", fontWeight: 600, fontSize: "0.8125rem", color: "white", marginTop: "0.2rem" }}>{reel.title}</p>
                 </div>
