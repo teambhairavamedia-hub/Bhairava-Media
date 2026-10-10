@@ -153,7 +153,7 @@ export function CinematicHero({ ready = true }: CinematicHeroProps) {
               onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = "0.9"; }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = "1"; }}
             >
-              Start a Project
+              Partner with us
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                 <path d="M2 10L10 2M10 2H4M10 2V8" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -865,13 +865,13 @@ export function HorizontalPortfolio({ ready = true }: HorizontalPortfolioProps) 
               </div>
               <div className="text-right">
                 <p className="text-[10px] uppercase font-bold text-[#0a0a0a]/40 tracking-widest">
-                  Revenue Impact
+                  {/* Revenue Impact */}
                 </p>
                 <p
                   className="mt-1 text-sm font-bold tracking-[-0.02em] text-[#0a0a0a]"
                   style={{ fontFamily: "var(--font-syne), sans-serif" }}
                 >
-                  {activeProject.revenue}
+                  {/* {activeProject.revenue} */}
                 </p>
               </div>
             </div>
@@ -1019,8 +1019,18 @@ export function ReelStack({ ready = true }: ReelStackProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const { reels } = experienceConfig;
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    const updateViewport = () => setIsDesktop(mediaQuery.matches);
+
+    updateViewport();
+    mediaQuery.addEventListener("change", updateViewport);
+    return () => mediaQuery.removeEventListener("change", updateViewport);
+  }, []);
 
   /* Switch reel with short cross-fade */
   const switchReel = (index: number) => {
@@ -1034,6 +1044,8 @@ export function ReelStack({ ready = true }: ReelStackProps) {
 
   /* Play active, pause others */
   useEffect(() => {
+    if (!isDesktop) return;
+
     videoRefs.current.forEach((v, i) => {
       if (!v) return;
       if (i === activeIndex) {
@@ -1044,7 +1056,7 @@ export function ReelStack({ ready = true }: ReelStackProps) {
         v.currentTime = 0;
       }
     });
-  }, [activeIndex, isMuted]);
+  }, [activeIndex, isMuted, isDesktop]);
 
   const toggleSound = () => {
     const activeVideo = videoRefs.current[activeIndex];
@@ -1060,7 +1072,7 @@ export function ReelStack({ ready = true }: ReelStackProps) {
       <div className="mx-auto max-w-[1320px] px-6 md:px-10 lg:px-14 py-20 md:py-28">
 
         {/* ── DESKTOP layout ─────────────────────────────────────────── */}
-        <div className="hidden md:flex md:flex-row md:items-stretch md:gap-14 lg:gap-20">
+        {isDesktop === true && <div className="flex md:flex-row md:items-stretch md:gap-14 lg:gap-20">
 
           {/* LEFT: portrait video */}
           <div className="flex flex-col items-center justify-center gap-4 shrink-0">
@@ -1080,7 +1092,7 @@ export function ReelStack({ ready = true }: ReelStackProps) {
                 <video
                   key={reel.title}
                   ref={(el) => { videoRefs.current[index] = el; }}
-                  src={reel.video}
+                  src={activeIndex === index ? reel.video : undefined}
                   autoPlay
                   muted={isMuted}
                   loop
@@ -1262,10 +1274,10 @@ export function ReelStack({ ready = true }: ReelStackProps) {
             </div>
           </div>
 
-        </div>
+        </div>}
 
         {/* ── MOBILE layout ──────────────────────────────────────────── */}
-        <div className="md:hidden">
+        {isDesktop === false && <div>
           <p className="label-eyebrow mb-4" style={{ color: "rgba(255,255,255,0.30)" }}>Content Engine</p>
           <h2
             className="text-[clamp(1.75rem,7vw,2.5rem)] font-bold leading-[0.96] tracking-[-0.04em] text-white mb-8"
@@ -1306,7 +1318,7 @@ export function ReelStack({ ready = true }: ReelStackProps) {
               </div>
             ))}
           </div>
-        </div>
+        </div>}
 
       </div>
     </Section>
@@ -1586,7 +1598,7 @@ function MarqueeRow({
         .marquee-row-inner:hover { animation-play-state: paused !important; }
       `}</style>
 
-      {/* <div
+      <div
         className="marquee-row-inner"
         style={{
           display: "flex",
@@ -1598,7 +1610,7 @@ function MarqueeRow({
         {doubled.map((t, i) => (
           <TestimonialCard key={`${t.author}-${i}`} t={t} />
         ))}
-      </div> */}
+      </div>
     </div>
   );
 }
