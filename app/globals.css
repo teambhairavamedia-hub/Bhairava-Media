@@ -241,7 +241,7 @@ html.lenis, html.lenis body {
   overflow: hidden;
 }
 
-.lenis-scrolling iframe {
+.lenis-scrolling iframe:not(.youtube-reel-player) {
   pointer-events: none;
 }
 
